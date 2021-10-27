@@ -65,6 +65,7 @@
   }
 }
 
+
 .slider__item-title {
   margin: 0 0 0 -5.5rem;
   text-transform: uppercase;
@@ -96,6 +97,13 @@
   max-width: 34rem;
   font-size: 1.8rem;
   line-height: 2rem;
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  transform: translateX(30px);
+  &--anim {
+    opacity: 1;
+    transform: translateX(0);
+  }
 
   @media (min-width: $stop-scaling) {
     margin-top: 36px;
@@ -124,6 +132,7 @@
     line-height: 1.5rem;
   }
 }
+
 
 .slider__controls {
   position: absolute;
