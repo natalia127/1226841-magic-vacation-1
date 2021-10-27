@@ -5,7 +5,13 @@
     .social-block__list {
       opacity: 1;
       pointer-events: auto;
+      transform: translateY(0);
+      li {
+        opacity: 1;
+
+      }
     }
+
   }
 }
 
@@ -17,6 +23,7 @@
   height: 4rem;
   color: $c-dark;
   border-radius: 50%;
+  transition: all 0.2s ease;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     display: none;
@@ -89,6 +96,8 @@
   margin-top: 1.5rem;
   opacity: 0;
   pointer-events: none;
+  transition: all 0.2s ease;
+  transform: translateY(-10px);
 
   @media (min-width: $stop-scaling) {
     margin-top: 15px;
@@ -145,6 +154,15 @@
   li {
     flex: none;
     margin-bottom: 0.5rem;
+    opacity: 0;
+    transition: all 0.2s;
+
+    &:nth-child(2) {
+      transition-delay: 100ms;
+    }
+    &:nth-child(3) {
+      transition-delay: 150ms;
+    }
 
     @media (min-width: $stop-scaling) {
       margin-bottom: 5px;

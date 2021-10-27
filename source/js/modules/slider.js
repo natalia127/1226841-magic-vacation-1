@@ -29,8 +29,15 @@ export default () => {
           },
           resize: () => {
             storySlider.update();
+          },
+          slideChangeTransitionEnd: () => {
+            animText()
+          },
+          reachBeginning: () => {
+            animText()
           }
         },
+        speed: 0,
         observer: true,
         observeParents: true
       });
@@ -49,6 +56,7 @@ export default () => {
         keyboard: {
           enabled: true
         },
+        speed: 0,
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
@@ -60,16 +68,36 @@ export default () => {
             } else if (storySlider.activeIndex === 6) {
               sliderContainer.style.backgroundImage = `url("img/slide4.jpg")`;
             }
+
           },
           resize: () => {
             storySlider.update();
+          },
+          slideChangeTransitionEnd: () => {
+            animText()
+          },
+          reachBeginning: () => {
+            animText()
           }
+
         },
         observer: true,
         observeParents: true
       });
     }
   };
+  let animText = ()=> {
+    let animEls = document.querySelectorAll('.swiper-slide-active .slider__item-text, .swiper-slide-next .slider__item-text')
+    let stepTime = 0
+    Array.from(animEls).forEach(el => {
+      setTimeout(()=> {
+        if (!el.classList.contains('.slider__item-text--anim')) {
+          el.classList.add('slider__item-text--anim')
+        }
+      }, stepTime)
+      stepTime+=250
+    });
+  }
 
   window.addEventListener(`resize`, function () {
     if (storySlider) {
