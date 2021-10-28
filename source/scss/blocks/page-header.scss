@@ -28,6 +28,16 @@
   .page-header__logo {
     transform: translateX(0);
   }
+  .page-header__menu a {
+    &.active {
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+  .page-header__social {
+    transform: scale(1);
+  }
 }
 
 
@@ -47,7 +57,7 @@
   padding: 1rem 0;
   width: 10rem;
   color: $c-light;
-  transform: translateX(-100px);
+  transform: translateX(-5rem);
   transition: transform 0.7s cubic-bezier(.36,.96,.69,.78);
 
 
@@ -283,7 +293,8 @@
 
     &.active {
       &::after {
-        width: 100%;
+        width: 0;
+        transition: width 0.3s ease;
       }
     }
 
@@ -303,6 +314,8 @@
 
 .page-header__social {
   margin-left: 4.8rem;
+  transform: scale(0);
+  transition: transform 0.3s ease;
 
   @media (min-width: $stop-scaling) {
     margin-left: 48px;
