@@ -1,25 +1,32 @@
 export default () => {
   let handlers = {
     animtop: (el) => {
-      let animEl = el.querySelector('.intro__message')
-      if (animEl && !animEl.classList.contains('.intro__message--anim')) {
-        animEl.classList.add('intro__message--anim')
-      }
+      addAnimClass(el,'.intro__message', 'intro__message--anim' )
     },
     animgame: (el) => {
-      let animEl = el.querySelector('.chat__footer .form__field')
-      if (animEl && !animEl.classList.contains('.form__field-anim')) {
-        animEl.classList.add('form__field-anim')
-      }
-    }
+      addAnimClass(el,'.chat__footer .form__field',  'form__field-anim')
+    },
+    animHeaderFooter: () => {
+      addAnimClass(document, 'body', 'body--anim')
+    },
   }
   document.body.addEventListener('screenChanged', (e)=> {
     let handler = handlers['anim' + e.detail.screenName]
     if (handler) {
       setTimeout(()=>{
-        console.log(e.detail.screenElement);
         handler(e.detail.screenElement)
       }, 500)
     }
   })
+
+  window.addEventListener('load', ()=> {
+    handlers.animHeaderFooter()
+  })
+}
+
+const addAnimClass = ($el, selector, newClass) => {
+  let animEl = $el.querySelector(selector)
+      if (animEl && !animEl.classList.contains(`.${newClass}`)) {
+        animEl.classList.add(newClass)
+      }
 }
