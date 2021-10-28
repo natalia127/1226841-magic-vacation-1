@@ -5,6 +5,9 @@
   right: 0;
   padding: 2.7rem 0;
   z-index: 10;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+
 
   @media (min-width: $stop-scaling) {
     padding: 27px 0;
@@ -18,6 +21,15 @@
     padding: 0.9rem 0;
   }
 }
+.body--anim {
+  .page-header {
+    opacity: 1;
+  }
+  .page-header__logo {
+    transform: translateX(0);
+  }
+}
+
 
 .page-header__wrapper {
   @include container;
@@ -35,6 +47,9 @@
   padding: 1rem 0;
   width: 10rem;
   color: $c-light;
+  transform: translateX(-100px);
+  transition: transform 0.7s cubic-bezier(.36,.96,.69,.78);
+
 
   @media (min-width: $stop-scaling) {
     top: -5px;
