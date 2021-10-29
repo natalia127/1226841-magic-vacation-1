@@ -1,13 +1,15 @@
+import {$} from '../dom'
+import {PRIZES, TOP, GAME} from '../screenNames'
 export default () => {
   let handlers = {
-    animtop: (el) => {
-      addAnimClass(el,'.intro__message', 'intro__message--anim' )
+    [`anim${TOP}`]: (el) => {
+      $(el).findEl('.intro__message').addClass('intro__message--anim')
     },
-    animgame: (el) => {
-      addAnimClass(el,'.chat__footer .form__field',  'form__field-anim')
+    [`anim${GAME}`]: (el) => {
+      $(el).findEl('.chat__footer .form__field').addClass('form__field-anim')
     },
     animHeaderFooter: () => {
-      addAnimClass(document, 'body', 'body--anim')
+      $(document.body).addClass('body--anim')
     },
   }
   document.body.addEventListener('screenChanged', (e)=> {
@@ -24,9 +26,16 @@ export default () => {
   })
 }
 
-const addAnimClass = ($el, selector, newClass) => {
-  let animEl = $el.querySelector(selector)
-      if (animEl && !animEl.classList.contains(`.${newClass}`)) {
-        animEl.classList.add(newClass)
-      }
+
+export const animJumpScreen = (screenEl, screenName) => {
+  if (screenName !== PRIZES) return
+
+  return new Promise((resolve, reject) => {
+    let elJumpScreen = $(document).findEl('.jump-screen').addClass('jump-screen--anim')
+
+    setTimeout(() => {
+     elJumpScreen.removeClass('jump-screen--anim')
+      resolve()
+    }, 700);
+  });
 }
