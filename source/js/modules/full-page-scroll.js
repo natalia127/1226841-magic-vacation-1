@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle';
+import {animJumpScreen} from './anim'
 
 export default class FullPageScroll {
   constructor() {
@@ -45,7 +46,10 @@ export default class FullPageScroll {
     this.changePageDisplay();
   }
 
-  changePageDisplay() {
+  async changePageDisplay() {
+    await animJumpScreen(
+      this.screenElements[this.activeScreen],
+      this.screenElements[this.activeScreen].id);
     this.changeVisibilityDisplay();
     this.changeActiveMenuItem();
     this.emitChangeDisplayEvent();
