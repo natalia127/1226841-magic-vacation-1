@@ -1,0 +1,12 @@
+.jump-screen {
+  height: 0;
+  background: $c-dark;
+  position: fixed;
+  bottom: 0;
+  &--anim {
+    transition: height 0.7s ease;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
+  }
+}
