@@ -1,0 +1,16 @@
+.str {
+  display: inline-block;
+  overflow: hidden;
+}
+.str > span {
+  display: inline-block;
+  transform: translate3d(0, 1.2em, 0);
+}
+
+.txt.active  {
+  opacity: 1;
+  .str > span {
+    transform: translate3d(0, 0.15em, 0);
+  }
+}
+
