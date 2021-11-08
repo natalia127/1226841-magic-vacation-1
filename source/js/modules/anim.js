@@ -1,5 +1,5 @@
 import {$} from '../dom'
-import {PRIZES, TOP, GAME} from '../screenNames'
+import {PRIZES, TOP, GAME, RULES} from '../screenNames'
 export default () => {
   let handlers = {
     [`anim${TOP}`]: (el) => {
@@ -7,6 +7,9 @@ export default () => {
     },
     [`anim${GAME}`]: (el) => {
       $(el).findEl('.chat__footer .form__field').addClass('form__field-anim')
+    },
+    [`anim${RULES}`]: (el) => {
+      $(el).findEl('.rules').addClass('rules--anim')
     },
     animHeaderFooter: () => {
       $(document.body).addClass('body--anim')

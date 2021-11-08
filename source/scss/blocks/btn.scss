@@ -1,30 +1,30 @@
 .btn {
   @include btn-reset;
   position: relative;
-  padding: 1.5rem 2.9rem;
+  padding: $btn-pd-t 2.9rem;
   text-transform: uppercase;
   text-align: center;
   font-family: $font-alt;
   font-weight: 400;
-  font-size: 2.4rem;
+  font-size: $btn-fs;
   line-height: 3rem;
   color: $c-dark;
   letter-spacing: -0.04em;
 
   @media (min-width: $stop-scaling) {
-    padding: 15px 29px;
-    font-size: 24px;
+    padding: $btn-ss-pd-t 29px;
+    font-size: $btn-ss-fs;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
-    padding: 1rem;
-    font-size: 1.8rem;
+    padding: $btn-tb-pd;
+    font-size: $btn-tb-fs;
     line-height: 2rem;
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    padding: 1rem;
-    font-size: 1.8rem;
+    padding: $btn-mb-pd;
+    font-size: $btn-mb-fs;
     line-height: 2rem;
   }
 
