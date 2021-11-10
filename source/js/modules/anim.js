@@ -1,6 +1,7 @@
 import {$} from '../dom'
-import {PRIZES, TOP, GAME, RULES} from '../screenNames'
-export default () => {
+import {PRIZES, TOP, GAME, RULES, STORY, RESULT2, RESULT3} from '../screenNames'
+
+export const animChangeScreen = () => {
   let handlers = {
     [`anim${TOP}`]: (el) => {
       $(el).findEl('.intro__message').addClass('intro__message--anim')
@@ -14,16 +15,24 @@ export default () => {
     [`anim${GAME}`]: (el) => {
       $(el).findEl('.chat__footer .form__field').addClass('form__field-anim')
     },
+    [`anim${STORY}`]: (el, nameTheme = 'dark-purple') => {
+      addColorTheme(nameTheme)
+      $(el).findEl('.slider').addClass('anim-pagination')
+    },
     [`anim${RULES}`]: (el) => {
       $(el).findEl('.rules').addClass('rules--anim')
     },
-    animHeaderFooter: () => {
+    animHeader: () => {
       $(document.body).addClass('body--anim')
     },
-    animresult2: (el) => {
+    [`anim${RESULT2}`]: (el) => {
       $(el).findEl('.result__images').addClass('anim-app-img')
+    },
+    [`anim${RESULT3}`]: (el) => {
+      $(el).findEl('.result__button').addClass('anim-button')
     }
   }
+
   document.body.addEventListener('screenChanged', (e)=> {
     let handler = handlers['anim' + e.detail.screenName]
     if (handler) {
@@ -31,22 +40,60 @@ export default () => {
         handler(e.detail.screenElement)
       }, 500)
     }
+
+    if(e.detail.screenName !== STORY) {
+      addColorTheme('base')
+    }
   })
 
   window.addEventListener('load', ()=> {
-    handlers.animHeaderFooter()
+    handlers.animHeader()
   })
 }
 
+export const animHiddenScreen = (screenName) => {
+  const animFooter = (nameClass) => {
+    $(document.body).addClass(nameClass)
+    setTimeout(()=> {
+      $(document.body).removeClass(nameClass)
+    }, 600)
+  }
+  const handlers = {
+    [`anim${PRIZES}`]: () => {
+      animFooter('anim--footer__prizes')
+    },
+    [`anim${RULES}`]: () => {
+      animFooter('anim--footer__rules')
+    },
+  }
+  const handler = handlers['anim' + screenName]
 
-export const animJumpScreen = (screenEl, screenName) => {
-  if (screenName !== PRIZES) return
+  if (!handler) return
 
+  return new Promise((resolve) => {
+    handler()
+    setTimeout(() => {
+      resolve()
+    }, 500)
+  })
+}
+
+export const addColorTheme = (nameTheme) => {
+  const namesTheme = ['base', 'dark-purple', 'dark-blue', 'light-blue']
+  if(!namesTheme.includes(nameTheme)) return
+  const el = $(document).findEl('body')
+  if (el.isClass(nameTheme)) return
+  namesTheme.forEach(nameClass => el.removeClass(nameClass))
+  el.addClass(nameTheme)
+}
+
+export const animJumpScreen = (screenName) => {
+  if (screenName !== PRIZES)  return
   return new Promise((resolve, reject) => {
     let elJumpScreen = $(document).findEl('.jump-screen').addClass('jump-screen--anim')
 
     setTimeout(() => {
-     elJumpScreen.removeClass('jump-screen--anim')
+      elJumpScreen.removeClass('jump-screen--anim')
       resolve()
     }, 700);
   });

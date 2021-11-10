@@ -25,6 +25,15 @@
   border-radius: 50%;
   transition: all 0.2s ease;
 
+  .dark-purple & {
+    color: getColorDark('dark-purple');
+  }
+  .dark-blue & {
+    color: getColorDark('dark-blue');
+  }
+  .light-blue & {
+    color: getColorDark('light-blue');
+  }
   @media (max-width: $tablet) and (orientation: portrait) {
     display: none;
   }
@@ -54,6 +63,15 @@
   &:hover,
   .social-block--active & {
     color: $c-purple;
+    .dark-purple & {
+      color: getColor('dark-purple');
+    }
+    .dark-blue & {
+      color: getColor('dark-blue');
+    }
+    .light-blue & {
+      color: getColor('light-blue');
+    }
 
     &::before {
       width: 112.5%;
@@ -63,10 +81,28 @@
 
   &:focus {
     color: $c-purple;
+    .dark-purple & {
+      color: getColor('dark-purple');
+    }
+    .dark-blue & {
+      color: getColor('dark-blue');
+    }
+    .light-blue & {
+      color: getColor('light-blue');
+    }
     outline: none;
 
     &::before {
       border-color: $c-purple;
+      .dark-purple & {
+        border-color: getColor('dark-purple');
+      }
+      .dark-blue & {
+        border-color: getColor('dark-blue');
+      }
+      .light-blue & {
+        border-color: getColor('light-blue');
+      }
     }
 
     & + .social-block__list {
@@ -84,6 +120,18 @@
       height: 100%;
       background-color: $c-purple;
       border-color: $c-purple;
+      .dark-purple & {
+        background-color: getColor('dark-purple');
+        border-color: getColor('dark-purple');
+      }
+      .dark-blue & {
+        background-color: getColor('dark-blue');
+        border-color: getColor('dark-blue');
+      }
+      .light-blue & {
+        background-color: getColor('light-blue');
+        border-color: getColor('light-blue');
+      }
     }
   }
 }
@@ -195,15 +243,42 @@
   @media (max-width: $tablet) and (orientation: portrait) {
     color: $c-light;
     background-color: $c-dark;
+    .dark-purple & {
+      background-color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      background-color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      background-color: getColorDark('light-blue');
+    }
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
     color: $c-light;
     background-color: $c-dark;
+    .dark-purple & {
+      background-color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      background-color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      background-color: getColorDark('light-blue');
+    }
   }
 
   &:hover {
     color: $c-purple;
+    .dark-purple & {
+      color: getColor('dark-purple');
+    }
+    .dark-blue & {
+      color: getColor('dark-blue');
+    }
+    .light-blue & {
+      color: getColor('light-blue');
+    }
   }
 
   &:focus {
@@ -211,11 +286,32 @@
     background-color: $c-light;
     border-color: $c-purple;
     outline: none;
+    .dark-purple & {
+      border-color: getColor('dark-purple');
+      color: getColor('dark-purple');
+    }
+    .dark-blue & {
+      border-color: getColor('dark-blue');
+      color: getColor('dark-blue');
+    }
+    .light-blue & {
+      border-color: getColor('light-blue');
+      color: getColor('light-blue');
+    }
   }
 
   &:active,
   &:active:focus {
     color: $c-purple;
+    .dark-purple & {
+      color: getColor('dark-purple');
+    }
+    .dark-blue & {
+      color: getColor('dark-blue');
+    }
+    .light-blue & {
+      color: getColor('light-blue');
+    }
     background-color: $c-light;
     border-color: $c-light;
   }
