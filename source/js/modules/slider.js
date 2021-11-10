@@ -1,5 +1,5 @@
 import Swiper from "swiper";
-
+import {addColorTheme} from './anim'
 export default () => {
   let storySlider;
   let sliderContainer = document.getElementById(`story`);
@@ -19,12 +19,16 @@ export default () => {
           slideChange: () => {
             if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
               sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
+              addColorTheme('dark-purple')
             } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
               sliderContainer.style.backgroundImage = `url("img/slide2.jpg"), linear-gradient(180deg, rgba(45, 54, 179, 0) 0%, #2A34B0 16.85%)`;
+              addColorTheme('dark-blue')
             } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
               sliderContainer.style.backgroundImage = `url("img/slide3.jpg"), linear-gradient(180deg, rgba(92, 138, 198, 0) 0%, #5183C4 16.85%)`;
+              addColorTheme('light-blue')
             } else if (storySlider.activeIndex === 6 || storySlider.activeIndex === 7) {
               sliderContainer.style.backgroundImage = `url("img/slide4.jpg"), linear-gradient(180deg, rgba(45, 39, 63, 0) 0%, #2F2A42 16.85%)`;
+              addColorTheme('dark-purple')
             }
           },
           resize: () => {
@@ -61,12 +65,16 @@ export default () => {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
               sliderContainer.style.backgroundImage = `url("img/slide1.jpg")`;
+              addColorTheme('dark-purple')
             } else if (storySlider.activeIndex === 2) {
               sliderContainer.style.backgroundImage = `url("img/slide2.jpg")`;
+              addColorTheme('dark-blue')
             } else if (storySlider.activeIndex === 4) {
               sliderContainer.style.backgroundImage = `url("img/slide3.jpg")`;
+              addColorTheme('light-blue')
             } else if (storySlider.activeIndex === 6) {
               sliderContainer.style.backgroundImage = `url("img/slide4.jpg")`;
+              addColorTheme('dark-purple')
             }
 
           },
@@ -78,8 +86,7 @@ export default () => {
           },
           reachBeginning: () => {
             animText()
-          }
-
+          },
         },
         observer: true,
         observeParents: true
