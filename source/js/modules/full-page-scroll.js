@@ -1,5 +1,5 @@
 import throttle from 'lodash/throttle';
-import {animJumpScreen} from './anim'
+import {animJumpScreen, animHiddenScreen} from './anim'
 
 export default class FullPageScroll {
   constructor() {
@@ -9,7 +9,7 @@ export default class FullPageScroll {
 
     this.screenElements = document.querySelectorAll(`.screen:not(.screen--result)`);
     this.menuElements = document.querySelectorAll(`.page-header__menu .js-menu-link`);
-
+    this.prevActiveScreen = null
     this.activeScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
@@ -42,20 +42,21 @@ export default class FullPageScroll {
 
   onUrlHashChanged() {
     const newIndex = Array.from(this.screenElements).findIndex((screen) => location.hash.slice(1) === screen.id);
+    this.prevActiveScreen = this.activeScreen
     this.activeScreen = (newIndex < 0) ? 0 : newIndex;
     this.changePageDisplay();
   }
 
   async changePageDisplay() {
-    await animJumpScreen(
-      this.screenElements[this.activeScreen],
-      this.screenElements[this.activeScreen].id);
     this.changeVisibilityDisplay();
     this.changeActiveMenuItem();
     this.emitChangeDisplayEvent();
   }
 
-  changeVisibilityDisplay() {
+  async changeVisibilityDisplay() {
+    await animHiddenScreen(this.screenElements[this.prevActiveScreen].id)
+    await animJumpScreen(this.screenElements[this.activeScreen].id);
+
     this.screenElements.forEach((screen) => {
       screen.classList.add(`screen--hidden`);
       screen.classList.remove(`active`);
@@ -87,6 +88,7 @@ export default class FullPageScroll {
   }
 
   reCalculateActiveScreenPosition(delta) {
+    this.prevActiveScreen = this.activeScreen
     if (delta > 0) {
       this.activeScreen = Math.min(this.screenElements.length - 1, ++this.activeScreen);
     } else {

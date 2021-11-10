@@ -58,3 +58,24 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@function getColor($theme) {
+  $result: 'base';
+  @if $theme == 'base' {
+    $result: $c-purple;
+  } @else if $theme == 'dark-purple'{
+    $result: $c-dark;
+  } @else if $theme == 'dark-blue'{
+    $result: $c-blue;
+  } @else if $theme == 'light-blue'{
+    $result: $c-dark-blue;
+  }
+  @return $result;
+}
+@function getColorDark($theme) {
+  $result: getColor($theme);
+  @if $theme == 'base' {
+    $result: $c-dark;
+  }
+  @return $result;
+}

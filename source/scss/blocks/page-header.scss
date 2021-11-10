@@ -75,6 +75,15 @@
 
     .page-header--menu-opened & {
       color: $c-dark;
+      .dark-purple & {
+        color: getColorDark('dark-purple');
+      }
+      .dark-blue & {
+        color: getColorDark('dark-blue');
+      }
+      .light-blue & {
+        color: getColorDark('light-blue');
+      }
     }
   }
 
@@ -86,6 +95,15 @@
 
     .page-header--menu-opened & {
       color: $c-dark;
+      .dark-purple & {
+        color: getColorDark('dark-purple');
+      }
+      .dark-blue & {
+        color: getColorDark('dark-blue');
+      }
+      .light-blue & {
+        color: getColorDark('light-blue');
+      }
     }
   }
 
@@ -122,12 +140,30 @@
     right: 0.8rem;
     height: 1px;
     background-color: $c-dark;
+    .dark-purple & {
+      background-color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      background-color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      background-color: getColorDark('light-blue');
+    }
   }
 
   &::before {
     top: 0.9rem;
     width: 1rem;
     box-shadow: 0 0.6rem 0 0 $c-dark;
+    .dark-purple & {
+      box-shadow: 0 0.6rem 0 0 getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      box-shadow: 0 0.6rem 0 0 getColorDark('dark-blue');
+    }
+    .light-blue & {
+      box-shadow: 0 0.6rem 0 0 getColorDark('light-blue');
+    }
   }
 
   &::after {
@@ -168,6 +204,15 @@
     padding: 4rem 3.5rem;
     color: $c-dark;
     background-color: $c-light;
+    .dark-purple & {
+      color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      color: getColorDark('light-blue');
+    }
 
     .page-header--menu-opened & {
       transform: translateX(0);
@@ -188,7 +233,15 @@
     color: $c-dark;
     background-color: $c-light;
     overflow-y: auto;
-
+    .dark-purple & {
+      color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      color: getColorDark('light-blue');
+    }
     .page-header--menu-opened & {
       transform: translateX(0);
     }
@@ -211,12 +264,30 @@
     margin: auto 0;
     font-size: 2.4rem;
     color: $c-dark;
+    .dark-purple & {
+      color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      color: getColorDark('light-blue');
+    }
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
     margin: auto 0;
     font-size: 1.4rem;
     color: $c-dark;
+    .dark-purple & {
+      color: getColorDark('dark-purple');
+    }
+    .dark-blue & {
+      color: getColorDark('dark-blue');
+    }
+    .light-blue & {
+      color: getColorDark('light-blue');
+    }
   }
 
   ul {
@@ -281,12 +352,30 @@
         left: 0;
         right: 0;
         background-color: $c-dark;
+        .dark-purple & {
+          background-color: getColorDark('dark-purple');
+        }
+        .dark-blue & {
+          background-color: getColorDark('dark-blue');
+        }
+        .light-blue & {
+          background-color: getColorDark('light-blue');
+        }
       }
 
       @media (max-width: $mobile) and (orientation: landscape) {
         left: 0;
         right: 0;
         background-color: $c-dark;
+        .dark-purple & {
+          background-color: getColorDark('dark-purple');
+        }
+        .dark-blue & {
+          background-color: getColorDark('dark-blue');
+        }
+        .light-blue & {
+          background-color: getColorDark('light-blue');
+        }
       }
     }
 
@@ -302,11 +391,29 @@
     &:focus {
       color: $c-purple;
       outline: none;
+      .dark-purple & {
+        color: getColor('dark-purple');
+      }
+      .dark-blue & {
+        color: getColor('dark-blue');
+      }
+      .light-blue & {
+        color: getColor('light-blue');
+      }
 
       &::after {
         opacity: 1;
         width: 100%;
         background-color: $c-purple;
+        .dark-purple & {
+          background-color: getColor('dark-purple');
+        }
+        .dark-blue & {
+          background-color: getColor('dark-blue');
+        }
+        .light-blue & {
+          background-color: getColor('light-blue');
+        }
       }
     }
   }
