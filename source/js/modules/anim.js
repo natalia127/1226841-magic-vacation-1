@@ -30,6 +30,12 @@ export const animChangeScreen = () => {
     },
     [`anim${RESULT3}`]: (el) => {
       $(el).findEl('.result__button').addClass('anim-button')
+    },
+    [`anim${PRIZES}`]: (el) => {
+      const myAnimationElement = el.querySelector('#mainAnim');
+      if (myAnimationElement) {
+        myAnimationElement.beginElement();
+      }
     }
   }
 
