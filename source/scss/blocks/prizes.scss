@@ -330,3 +330,46 @@
     }
   }
 }
+
+.prizes__in-icon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.prizes__chair {
+  opacity: 0;
+}
+
+.active .prizes__item--journeys {
+  .prizes__out-airship, #windowOut {
+    animation-name: opacityOut;
+    animation-fill-mode: forwards;
+    animation-delay: 1.9s;
+    animation-duration: .2s;
+  }
+}
+
+
+.active .prizes__item--journeys .prizes__chair {
+  animation-name: opacityIn;
+  animation-duration: .6s;
+  animation-delay: 1.7s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes opacityOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes opacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
