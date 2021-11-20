@@ -35,6 +35,9 @@ export const animChangeScreen = () => {
 
       beginAnim('#mainAnim')
       beginAnim('#mainAnimPrize2')
+      setTimeout(()=> {
+        beginAnim('#mainAnimPrize3') },
+      1000)
 
       function beginAnim(animElSelector){
         const animEl = el.querySelector(animElSelector);
