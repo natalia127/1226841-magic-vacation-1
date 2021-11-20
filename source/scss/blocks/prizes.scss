@@ -337,11 +337,12 @@
   left: 0;
   right: 0;
 }
-.prizes__chair {
+
+.prizes__img-part2 {
   opacity: 0;
 }
 
-.active .prizes__item--journeys {
+.active .prizes__item {
   .prizes__out-airship, #windowOut {
     animation-name: opacityOut;
     animation-fill-mode: forwards;
@@ -351,12 +352,18 @@
 }
 
 
-.active .prizes__item--journeys .prizes__chair {
+.active .prizes__item .prizes__img-part2  {
   animation-name: opacityIn;
-  animation-duration: .6s;
-  animation-delay: 1.7s;
   opacity: 0;
   animation-fill-mode: forwards;
+  &.prizes__chair {
+    animation-duration: .6s;
+    animation-delay: 1.7s;
+  }
+  &.prizes__suitcase {
+    animation-duration: .6s;
+    animation-delay: 0s;
+  }
 }
 
 @keyframes opacityOut {
