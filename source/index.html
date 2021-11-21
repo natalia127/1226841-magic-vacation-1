@@ -1234,23 +1234,11 @@
                   />
                   <animateTransform
                     xlink:href="#bird"
-                    attributeName="transform"
-                    type="translate"
-                    values="-70 90; 0 0; -20 10; 0 -10; -10 5; 0 0"
-                    keyTimes="0; 0.3; 0.5; 0.7; 0.9; 1"
-                    dur="2s"
-                    fill="freeze"
-                    additive="sum"
-                    begin="openingCover.begin"
-                  />
-                  <animateTransform
-                    xlink:href="#bird"
                     id="birdTransform"
                     attributeName="transform"
-                    type="rotate"
-                    values="-20 281 144; 15 281 144;  -10 281 144; 5 281 144; -3 281 144; 0 281 144"
-                    keyTimes="0; 0.3; 0.5; 0.7; 0.9; 1"
-                    dur="2s"
+                    type="translate"
+                    values="-70 90; -20 10"
+                    dur="0.2s"
                     fill="freeze"
                     additive="sum"
                     begin="openingCover.begin"
@@ -1258,35 +1246,24 @@
                   <animateTransform
                     xlink:href="#bird"
                     attributeName="transform"
-                    type="rotate"
-                    values="-5 271 171;   5 281 144; -5 271 171; 0 291 181;   -5 281 144"
-                    keySplines="0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67"
-                    calcMode="spline"
-                    dur="1.5s"
-                    fill="freeze"
-                    repeatCount="indefinite"
-                    additive="sum"
-                    begin="birdTransform.end"
-                  />
-                  <animateTransform
-                    xlink:href="#bird"
-                    attributeName="transform"
                     type="translate"
-                    values=" 0 0; -10 10; 0 0; -20 10; 0 -10; -10 5; -10 10;  0 0"
-                    keySplines="0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67;
-                  0.17 0.67 0.83 0.67"
-                    calcMode="spline"
+                    values=" 0 0; -15 5; 20 -10; 0 0; 10 10; 0 0"
+
+                      dur="4.5s"
+                      fill="freeze"
+                      repeatCount="indefinite"
+                      additive="sum"
+                      begin="birdTransform.end"
+                    />
+                    <animateTransform
+                    xlink:href="#bird"
+
+                    attributeName="transform"
+                    type="rotate"
+                    values="-10 281 174; -20 281 174;  -15 281 174; 0 281 174; -3 281 174; -10 281 174;"
+                    repeatCount="indefinite"
                     dur="3s"
                     fill="freeze"
-                    repeatCount="indefinite"
                     additive="sum"
                     begin="birdTransform.end"
                   />
