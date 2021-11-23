@@ -3,7 +3,9 @@
     this.$el = el
   }
   findEl (selector) {
-    return $(this.$el.querySelector(selector))
+    let els = this.$el.querySelectorAll(selector)
+    if (els.length === 1) return $(els[0])
+    return Array.from(els).map(el => $(el))
   }
   isClass (nameClass) {
     return this.$el.classList.contains(nameClass)

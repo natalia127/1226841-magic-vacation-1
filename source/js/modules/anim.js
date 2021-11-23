@@ -1,3 +1,4 @@
+import { lte } from 'lodash'
 import {$} from '../dom'
 import {PRIZES, TOP, GAME, RULES, STORY, RESULT2, RESULT3} from '../screenNames'
 
@@ -32,12 +33,32 @@ export const animChangeScreen = () => {
       $(el).findEl('.result__button').addClass('anim-button')
     },
     [`anim${PRIZES}`]: (el) => {
+      let countPrizes = $(el).findEl('.prizes__desc b')
 
       beginAnim('#mainAnim')
-      beginAnim('#mainAnimPrize2')
+      setTimeout(() => {
+        animCountPrizes(countPrizes[0].$el)
+      }, 1400)
+
       setTimeout(()=> {
-        beginAnim('#mainAnimPrize3') },
-      1000)
+        beginAnim('#mainAnimPrize2')
+      },
+      2500)
+      setTimeout(()=> {
+        animCountPrizes(countPrizes[1].$el)
+      },
+      3000)
+
+      setTimeout(()=> {
+        beginAnim('#mainAnimPrize3')
+
+      },
+      3700)
+      setTimeout(()=> {
+        animCountPrizes(countPrizes[2].$el)
+      },
+      4700)
+
 
       function beginAnim(animElSelector){
         const animEl = el.querySelector(animElSelector);
@@ -150,4 +171,47 @@ const animJumpText = (el, { property, direction, timeFunction, classRunAnim}) =>
   setTimeout(()=> {
     el.classList.add(classRunAnim)
   }, 200)
+}
+
+const animCountPrizes = (el) => {
+  let totalCount = parseInt(el.innerText)
+  let intermediateValues = [totalCount]
+  if (totalCount > 100) {
+    intermediateValues.push(11)
+  }
+  if (totalCount > 4) {
+    for (let index = 0; index < 3; index++) {
+      let value = Math.ceil(Math.random() * totalCount)
+      if (!intermediateValues.includes(value)) {
+        intermediateValues.push(value)
+      }
+    }
+    intermediateValues.sort()
+  }
+  let stylesEl = window.getComputedStyle(el, null)
+  let width = stylesEl.width
+  let height = stylesEl.height
+  el.style.width = width
+  el.style.height = height
+  el.innerHTML = ''
+  el.style.opacity = 1
+  let now,
+  i=0,
+  fps = 12,
+  fpsInterval = 1000 / fps,
+  then = Date.now(),
+  elapsed
+
+
+  (function tick() {
+    if (i >= intermediateValues.length) return
+    requestAnimationFrame(tick)
+    now = Date.now();
+    elapsed = now - then;
+    if (elapsed > fpsInterval) {
+      el.innerHTML = intermediateValues[i]
+      i++
+    }
+  })()
+
 }
