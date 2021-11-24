@@ -1,5 +1,5 @@
 import {$} from '../dom'
-import {PRIZES, TOP, GAME, RULES, STORY, RESULT2, RESULT3} from '../screenNames'
+import {PRIZES, TOP, GAME, RULES, STORY, RESULT1, RESULT2, RESULT3} from '../screenNames'
 
 export const animChangeScreen = () => {
   let handlers = {
@@ -25,26 +25,28 @@ export const animChangeScreen = () => {
     animHeader: () => {
       $(document.body).addClass('body--anim')
     },
+    [`anim${RESULT1}`]: (el) => {
+     animTextSvg($(el).findEl('#victory1').$el)
+     beginAnim(el, '#animTextV1')
+    },
     [`anim${RESULT2}`]: (el) => {
       $(el).findEl('.result__images').addClass('anim-app-img')
+      animTextSvg($(el).findEl('#victory2').$el)
+      beginAnim(el, '#animTextV2')
     },
     [`anim${RESULT3}`]: (el) => {
       $(el).findEl('.result__button').addClass('anim-button')
+      animJumpTextSvg($(el).findEl('#losing').$el)
+      animTextSvg($(el).findEl('#losing').$el)
+      beginAnim(el, '#animTextL')
+
     },
     [`anim${PRIZES}`]: (el) => {
-
-      beginAnim('#mainAnim')
-      beginAnim('#mainAnimPrize2')
+      beginAnim(el, '#mainAnim')
+      beginAnim(el, '#mainAnimPrize2')
       setTimeout(()=> {
-        beginAnim('#mainAnimPrize3') },
+        beginAnim(el, '#mainAnimPrize3') },
       1000)
-
-      function beginAnim(animElSelector){
-        const animEl = el.querySelector(animElSelector);
-        if (animEl) {
-          animEl.beginElement();
-        }
-      }
     }
   }
 
@@ -150,4 +152,56 @@ const animJumpText = (el, { property, direction, timeFunction, classRunAnim}) =>
   setTimeout(()=> {
     el.classList.add(classRunAnim)
   }, 200)
+}
+
+function beginAnim(el, animElSelector){
+  const animEl = el.querySelector(animElSelector);
+  if (animEl) {
+    animEl.beginElement();
+  }
+}
+
+const animTextSvg = (el) => {
+  const children = el.children
+  for (let i = 0; i< children.length; i++) {
+    if (children[i].nodeName !== 'path') continue
+    const pathLength = Math.ceil(children[i].getTotalLength())
+    children[i].setAttributeNS(null, 'stroke-dasharray', `0 ${pathLength}`)
+
+    let  animation = document.createElementNS('http://www.w3.org/2000/svg', 'animate')
+    animation.setAttributeNS(null, 'begin', 'indefinite')
+    animation.setAttributeNS(null, 'attributeName',  'stroke-dasharray')
+    animation.setAttributeNS(null, 'to',  `${pathLength/4} 0`)
+    animation.setAttributeNS(null, 'from',  `3 ${pathLength/4}`)
+    animation.setAttributeNS(null, 'fill', 'freeze')
+    animation.setAttributeNS(null, 'dur', '0.5s')
+    children[i].appendChild(animation)
+    animation.beginElement()
+  }
+}
+
+const animJumpTextSvg = (el) => {
+  let height = window.getComputedStyle(el, null).height;
+  let kHeight = 70
+  el.style.height = `${parseInt(height) + kHeight}px`
+  el.style.position = 'relative'
+  el.style.bottom = `${kHeight/2}px`
+  const children = el.children
+  let del = 0
+  for (let i = 0; i< children.length; i++) {
+    if (children[i].nodeName !== 'path') continue
+
+    let  animation = document.createElementNS('http://www.w3.org/2000/svg', 'animateTransform')
+    animation.setAttributeNS(null, 'begin', 'indefinite')
+    animation.setAttributeNS(null, 'attributeName',  'transform')
+    animation.setAttributeNS(null, 'values', '-2 -50; -2 0;  -2 -10; -2 0;  -2 -5; -2 0')
+    animation.setAttributeNS(null, 'dur', '1s')
+    animation.setAttributeNS(null, 'fill', 'freeze')
+
+    children[i].appendChild(animation)
+    setTimeout(()=> {
+      animation.beginElement()
+    }, del)
+    del+=50
+  }
 }
