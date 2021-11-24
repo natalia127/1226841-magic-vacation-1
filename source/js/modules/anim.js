@@ -1,5 +1,6 @@
 import {$} from '../dom'
-import {PRIZES, TOP, GAME, RULES, STORY, RESULT2, RESULT3} from '../screenNames'
+import {PRIZES, TOP, GAME, RULES, STORY, RESULT1, RESULT2, RESULT3} from '../screenNames'
+import { Scene2SSeaCalf } from './animCanvas/SceneSeaCalf'
 
 export const animChangeScreen = () => {
   let handlers = {
@@ -24,6 +25,9 @@ export const animChangeScreen = () => {
     },
     animHeader: () => {
       $(document.body).addClass('body--anim')
+    },
+    [`anim${RESULT1}`]: (el) => {
+      new Scene2SSeaCalf()
     },
     [`anim${RESULT2}`]: (el) => {
       $(el).findEl('.result__images').addClass('anim-app-img')
