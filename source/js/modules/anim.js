@@ -14,6 +14,7 @@ export const animChangeScreen = () => {
     },
     [`anim${GAME}`]: (el) => {
       $(el).findEl('.chat__footer .form__field').addClass('form__field-anim')
+      animTimerGame( $(el).findEl('.game__counter').$el)
     },
     [`anim${STORY}`]: (el, nameTheme = 'dark-purple') => {
       addColorTheme(nameTheme)
@@ -150,4 +151,50 @@ const animJumpText = (el, { property, direction, timeFunction, classRunAnim}) =>
   setTimeout(()=> {
     el.classList.add(classRunAnim)
   }, 200)
+}
+
+const animTimerGame = (el) => {
+  const countMinute = 5
+  localStorage.removeItem('timeGame')
+
+  let now = Date.now()
+  let next = null
+  let dateTimer = null
+
+  if (localStorage.getItem('timeGame')) {
+    next = localStorage.getItem('timeGame')
+  } else {
+    next = AddMinutesToDate(now, countMinute).getTime()
+    localStorage.setItem('timeGame', next)
+  }
+
+  function AddMinutesToDate(date, minutes) {
+    return new Date(date + minutes*60000)
+  }
+  function DateFormat(date){
+    let minutes = date.getMinutes();
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    let seconds = date.getSeconds();
+    seconds = seconds < 10 ? '0' + seconds : seconds
+    let strTime = `${minutes}:${seconds}`;
+    return strTime;
+  }
+
+  (function tick() {
+    let requestId = requestAnimationFrame(tick)
+    now = Date.now()
+    let diffTime = next - now
+    let dateTimerLocal = DateFormat(new Date(diffTime))
+    if (diffTime <= 1000) {
+      cancelAnimationFrame(requestId)
+      localStorage.removeItem('timeGame')
+    }
+    if (dateTimer !== dateTimerLocal) {
+      const timeEl = document.createElement('span')
+      timeEl.innerHTML = dateTimerLocal
+      el.innerHTML = ``
+      el.append(timeEl)
+      dateTimer = dateTimerLocal
+    }
+  })()
 }
