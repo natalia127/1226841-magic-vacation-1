@@ -27,7 +27,7 @@ export const animChangeScreen = () => {
       $(document.body).addClass('body--anim')
     },
     [`anim${RESULT1}`]: (el) => {
-      new Scene2SSeaCalf()
+      new Scene2SSeaCalf().animScene()
     },
     [`anim${RESULT2}`]: (el) => {
       $(el).findEl('.result__images').addClass('anim-app-img')

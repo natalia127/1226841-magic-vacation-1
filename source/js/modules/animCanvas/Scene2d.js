@@ -1,27 +1,12 @@
-
-
 export class Scene2D {
   constructor(options) {
-    this.screenScale = 6
     this.canvas = options.canvas
     this.ctx = this.canvas.getContext('2d')
-    this.size = options.settingsCanvas.size
+    this.size = options.size
     this.canvas.width = this.size
     this.canvas.height = this.size
-    this.settingsImgs = {...options.images}
+    this.objects = JSON.parse(JSON.stringify(options.images))
     this.loadImgs(options.urlImgs)
-
-  }
-
-  changeSizeInCanvas () {
-    this.size = this.size * this.screenScale
-    Object.keys(this.settingsImgs).forEach((nameImg) => {
-      const img = this.settingsImgs[nameImg]
-      img.x
-    })
-  }
-
-  updateSizeCanvas () {
 
   }
 
@@ -31,9 +16,8 @@ export class Scene2D {
       return new Promise((resolve) => {
         let imgDom = new Image()
         imgDom.src = urlImgs[nameImg]
-        this.settingsImgs[nameImg].imgDom = imgDom
+        this.objects[nameImg].imgDom = imgDom
         imgDom.onload = () => {
-          console.log('resolve');
           resolve()
         }
       })
@@ -43,10 +27,16 @@ export class Scene2D {
     this.drawAllImgs()
   }
   drawAllImgs () {
-    Object.keys(this.settingsImgs).forEach((imgName) => {
-      this.drawImg(this.settingsImgs[imgName])
+    Object.keys(this.objects).forEach((imgName) => {
+      this.drawImg(this.objects[imgName])
     })
 
+  }
+
+  rotateCtx (angle, trOrigin) {
+    this.ctx.translate(trOrigin.x, trOrigin.y)
+    this.ctx.rotate((Math.PI / 180) * angle)
+    this.ctx.translate(-trOrigin.x, -trOrigin.y)
   }
 
   drawImg (img) {
@@ -56,12 +46,21 @@ export class Scene2D {
     let x = this.size * img.x / 100 - width/2
     let y = this.size * img.y / 100 - height/2
     let trf = {...img.transforms}
-
+    if (trf) {this.ctx.save()}
     if (trf.translateY) {
-      let translateY = this.size * trf.translateY / 100
-      this.ctx.translate(0, trf.translateY)
+      y += this.size * trf.translateY / 100
+    }
+    if (trf.translateX) {
+      x += this.size * trf.translateX / 100
+    }
+    if (trf.rotate) {
+      this.rotateCtx(trf.rotate, {x: x + width / 2, y: y + height / 2})
     }
     this.ctx.drawImage(img.imgDom, x, y, width, height)
+
+    if (trf) {
+      this.ctx.restore()
+    }
 
   }
 }

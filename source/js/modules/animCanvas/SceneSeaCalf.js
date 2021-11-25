@@ -1,11 +1,10 @@
 import { Scene2D } from "./Scene2d"
+import { Animation } from "./Animation"
 const PATH_DIR_IMGS = './img/module-4/win-primary-images/'
 const URL_IMGS = {
   seaCalf: 'sea-calf-2.png'
 }
-const SETTINGS_CANVAS = {
-  size: 100
-}
+const SIZECANVAS = 600
 const IMAGES = {
   seaCalf: {
     imageId: `seaCalf`,
@@ -14,7 +13,7 @@ const IMAGES = {
     size: 50,
     opacity: 0,
     transforms: {
-      translateY: 200
+      translateY: 50,
     },
     imgDom: null
   }
@@ -32,8 +31,21 @@ export class Scene2SSeaCalf extends Scene2D {
         canvas,
         images: IMAGES,
         urlImgs,
-        settingsCanvas: SETTINGS_CANVAS
+        size: SIZECANVAS
       }
     )
+  }
+
+  animScene () {
+    this.animSeaCalf()
+  }
+
+  animSeaCalf () {
+    const anim = new Animation({
+      f: (progress) => {
+        //console.log(progress);
+      }
+    })
+    anim.start()
   }
 }
