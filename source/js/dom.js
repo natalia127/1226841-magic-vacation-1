@@ -1,35 +1,35 @@
- class Dom {
-  constructor (el){
-    this.$el = el
+class Dom {
+  constructor(el) {
+    this.$el = el;
   }
-  findEl (selector) {
-    let els = this.$el.querySelectorAll(selector)
-    if (els.length === 1) return $(els[0])
-    return Array.from(els).map(el => $(el))
+  findEl(selector) {
+    let els = this.$el.querySelectorAll(selector);
+    if (els.length === 1) {return $(els[0])};
+    return Array.from(els).map((el) => $(el));
   }
-  isClass (nameClass) {
-    return this.$el.classList.contains(nameClass)
+  isClass(nameClass) {
+    return this.$el.classList.contains(nameClass);
   }
-  addClass (nameClass){
+  addClass(nameClass) {
     if (!this.isClass(nameClass)) {
-      this.$el.classList.add(nameClass)
+      this.$el.classList.add(nameClass);
     }
-    return $(this.$el)
+    return $(this.$el);
   }
-  removeClass (nameClass) {
+  removeClass(nameClass) {
     if (this.isClass(nameClass)) {
-      this.$el.classList.remove(nameClass)
+      this.$el.classList.remove(nameClass);
     }
-    return $(this.$el)
+    return $(this.$el);
   }
-  addStyle (styles) {
-    Object.keys(styles).forEach(nameStyle => {
-      this.$el.style[nameStyle] = styles[nameStyle]
-    })
-    return $(this.$el)
+  addStyle(styles) {
+    Object.keys(styles).forEach((nameStyle) => {
+      this.$el.style[nameStyle] = styles[nameStyle];
+    });
+    return $(this.$el);
   }
-
 }
 
-export const $ = (el) => {return new Dom(el)}
-
+export const $ = (el) => {
+  return new Dom(el);
+};

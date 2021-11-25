@@ -9,7 +9,7 @@ export default () => {
           footer.classList.remove(`footer__first--anim`);
           setTimeout(() => {
             footer.classList.remove(`screen__footer--full`);
-          }, 150)
+          }, 150);
         } else {
           footer.classList.add(`screen__footer--full`, `footer__first--anim`);
         }
