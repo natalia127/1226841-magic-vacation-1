@@ -1,4 +1,4 @@
-function inElastic(x) {
+function outElastic(x) {
   const c4 = (2 * Math.PI) / 3;
 
   if (x === 0) {
@@ -6,15 +6,15 @@ function inElastic(x) {
   } else if (x === 1) {
     return 1;
   } else {
-    return Math.pow(2, 10 * x - 10) * Math.sin((x * 10 - 10.75) * c4);
+    return Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
   }
 }
 
 function linear(x) {
-  return x
+  return x;
 }
 
 export const ease = {
-  inElastic,
+  outElastic,
   linear
-}
+};

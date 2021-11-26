@@ -88,7 +88,7 @@ export default class FullPageScroll {
   }
 
   reCalculateActiveScreenPosition(delta) {
-    this.prevActiveScreen = this.activeScreen
+    this.prevActiveScreen = this.activeScreen;
     if (delta > 0) {
       this.activeScreen = Math.min(this.screenElements.length - 1, ++this.activeScreen);
     } else {
