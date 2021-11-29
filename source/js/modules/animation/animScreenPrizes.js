@@ -26,15 +26,15 @@ const animCountPrizes = (el) => {
   if (totalCount > 100) {
     intermediateValues.push(11);
   }
-  if (totalCount > 4) {
-    for (let index = 0; index < 3; index++) {
-      let value = Math.ceil(Math.random() * totalCount);
-      if (!intermediateValues.includes(value)) {
-        intermediateValues.push(value);
-      }
+
+  for (let index = 0; index < 7; index++) {
+    let value = Math.ceil(Math.random() * totalCount);
+    if (!intermediateValues.includes(value)) {
+      intermediateValues.push(value);
     }
-    intermediateValues.sort();
   }
+  intermediateValues.sort();
+
   let stylesEl = window.getComputedStyle(el, null);
   let width = stylesEl.width;
   let height = stylesEl.height;
@@ -42,23 +42,22 @@ const animCountPrizes = (el) => {
   el.style.height = height;
   el.innerHTML = ``;
   el.style.opacity = 1;
-  let now;
   let i = 0;
   let fps = 12;
   let fpsInterval = 1000 / fps;
-  let then = Date.now();
-  let elapsed;
+  let lastFrameTime = performance.now();
+  let delta;
 
-  (function tick() {
+  (function tick(currentTime) {
     if (i >= intermediateValues.length) {
       return;
     }
     requestAnimationFrame(tick);
-    now = Date.now();
-    elapsed = now - then;
-    if (elapsed > fpsInterval) {
+    delta = currentTime - lastFrameTime;
+    if (delta > fpsInterval) {
       el.innerHTML = intermediateValues[i];
       i++;
+      lastFrameTime = currentTime - delta % fpsInterval;
     }
   })();
 };

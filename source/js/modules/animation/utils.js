@@ -14,7 +14,12 @@ function linear(x) {
   return x;
 }
 
+function inQuad(x) {
+  return x * x;
+}
+
 export const ease = {
   outElastic,
-  linear
+  linear,
+  inQuad
 };
