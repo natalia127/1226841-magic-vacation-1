@@ -9,6 +9,8 @@ import {
   RESULT2,
   RESULT3,
 } from '../../screenNames';
+import {Scene2SSeaCalf} from "./animCanvas/SceneSeaCalf";
+
 import {
   animJumpTextSvg,
   animTextSvg
@@ -38,7 +40,6 @@ export const animChangeScreen = () => {
     [`anim${GAME}`]: (el) => {
       $(el).findEl(`.chat__footer .form__field`).addClass(`form__field-anim`);
       const animTimerGame = new AnimTimerGame($(el).findEl(`.game__counter`).$el);
-     // animTimerGame.initTimer();
     },
     [`anim${STORY}`]: (el, nameTheme = `dark-purple`) => {
       addColorTheme(nameTheme);
@@ -53,6 +54,8 @@ export const animChangeScreen = () => {
     [`anim${RESULT1}`]: (el) => {
       animTextSvg($(el).findEl(`#victory1`).$el);
       beginAnimSVG(el, `#animTextV1`);
+      const scene = new Scene2SSeaCalf();
+      scene.start();
     },
     [`anim${RESULT2}`]: (el) => {
       $(el).findEl(`.result__images`).addClass(`anim-app-img`);
