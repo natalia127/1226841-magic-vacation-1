@@ -109,7 +109,7 @@ const LOCALS = Object.freeze({
   }
 });
 
-export class Scene2SSeaCalf extends Scene2D {
+export class Scene2DSeaCalf extends Scene2D {
   constructor() {
     const canvas = document.getElementById(`warlus-canvas`);
     const urlImgs = Object.keys(URL_IMGS).reduce((acc, nameImg) => {

@@ -9,7 +9,8 @@ import {
   RESULT2,
   RESULT3,
 } from '../../screenNames';
-import {Scene2SSeaCalf} from "./animCanvas/SceneSeaCalf";
+import {Scene2DSeaCalf} from "./animCanvas/SceneSeaCalf";
+import {Scene2DCrocodile} from "./animCanvas/SceneCrocodile";
 
 import {
   animJumpTextSvg,
@@ -54,7 +55,7 @@ export const animChangeScreen = () => {
     [`anim${RESULT1}`]: (el) => {
       animTextSvg($(el).findEl(`#victory1`).$el);
       beginAnimSVG(el, `#animTextV1`);
-      const scene = new Scene2SSeaCalf();
+      const scene = new Scene2DSeaCalf();
       scene.start();
     },
     [`anim${RESULT2}`]: (el) => {
@@ -66,7 +67,13 @@ export const animChangeScreen = () => {
       $(el).findEl(`.result__button`).addClass(`anim-button`);
       animJumpTextSvg($(el).findEl(`#losing`).$el);
       animTextSvg($(el).findEl(`#losing`).$el);
-      beginAnimSVG(el, `#animTextL`);
+      setTimeout(()=>{
+        beginAnimSVG(el, `#animTextL`);
+
+      }, 500);
+
+      const scene = new Scene2DCrocodile();
+      scene.start();
     },
     [`anim${PRIZES}`]: (el) => {
       let countPrizes = $(el).findEl(`.prizes__desc b`);

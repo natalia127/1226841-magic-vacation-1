@@ -74,6 +74,9 @@ export class Scene2D {
         this.objects[imgName].before();
       }
       this.drawImg(this.objects[imgName]);
+      if (this.objects[imgName].after) {
+        this.objects[imgName].after();
+      }
     });
   }
 
@@ -82,17 +85,17 @@ export class Scene2D {
   }
 
   drawImg(img) {
-    let opacity = img.opacity;
+    const opacity = img.opacity;
     if (!opacity) {
       return;
     }
-    let size = img.size;
+    const size = img.size;
     let width = (this.size * size) / 100;
     let height =
       (((this.size * size) / 100) * img.imgDom.height) / img.imgDom.width;
     let x = (this.size * img.x) / 100 - width / 2;
     let y = (this.size * img.y) / 100 - height / 2;
-    let trf = {...img.transforms};
+    const trf = {...img.transforms};
     if (trf) {
       this.ctx.save();
     }
