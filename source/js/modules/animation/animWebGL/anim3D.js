@@ -32,7 +32,7 @@ export class Anim3D {
   init(numberScene = 0) {
     this.currentScene = `scene${numberScene}`;
     if (Anim3D.textures[this.currentScene].loadedTexture) {
-      this.renderScene();
+      this.setTexture();
     } else {
       this.initTexture();
     }
@@ -42,17 +42,20 @@ export class Anim3D {
     let texture = new THREE.TextureLoader(manager).load(Anim3D.textures[this.currentScene].url);
     manager.onLoad = () => {
       Anim3D.textures[this.currentScene].loadedTexture = texture;
-      Anim3D.textures[this.currentScene].scene = new THREE.Scene();
-      const geometry = new THREE.PlaneGeometry(2048, 1024);
-      const material = new THREE.MeshBasicMaterial({map: Anim3D.textures[this.currentScene].loadedTexture});
-      const image = new THREE.Mesh(geometry, material);
-      Anim3D.textures[this.currentScene].scene.add(image);
-      this.renderScene();
+      this.setTexture();
     };
+  }
+  setTexture() {
+    this.scene = new THREE.Scene();
+    const geometry = new THREE.PlaneGeometry(2048, 1024);
+    const material = new THREE.MeshBasicMaterial({map: Anim3D.textures[this.currentScene].loadedTexture});
+    const image = new THREE.Mesh(geometry, material);
+    this.scene.add(image);
+    this.renderScene();
   }
 
   renderScene() {
-    Anim3D.renderer.render(Anim3D.textures[this.currentScene].scene, Anim3D.camera);
+    Anim3D.renderer.render(this.scene, Anim3D.camera);
   }
 
   static updateSize() {
