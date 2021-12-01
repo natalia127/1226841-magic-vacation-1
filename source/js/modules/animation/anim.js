@@ -27,9 +27,18 @@ import {AnimTimerGame} from './animScreenGame';
 
 import {addColorTheme} from './animScreenStoty';
 
+import {Anim3D,
+  setSettingsAnim3D} from './animWebGL/anim3D';
+
+setSettingsAnim3D();
+
 export const animChangeScreen = () => {
+  const anim3D = new Anim3D();
+
   let handlers = {
     [`anim${TOP}`]: (el) => {
+      anim3D.init();
+
       $(el).findEl(`.intro__message`).addClass(`intro__message--anim`);
       animJumpText($(el).findEl(`.intro__title`).$el, {
         property: `transform`,
@@ -43,6 +52,8 @@ export const animChangeScreen = () => {
       const animTimerGame = new AnimTimerGame($(el).findEl(`.game__counter`).$el);
     },
     [`anim${STORY}`]: (el, nameTheme = `dark-purple`) => {
+      anim3D.init(1);
+
       addColorTheme(nameTheme);
       $(el).findEl(`.slider`).addClass(`anim-pagination`);
     },
