@@ -4,7 +4,9 @@ class Dom {
   }
   findEl(selector) {
     let els = this.$el.querySelectorAll(selector);
-    if (els.length === 1) {return $(els[0])};
+    if (els.length === 1) {
+      return $(els[0]);
+    }
     return Array.from(els).map((el) => $(el));
   }
   isClass(nameClass) {

@@ -8,48 +8,55 @@ export class Animation {
     this.fps = options.fps || 60;
     this.easing = options.easing || ease.linear;
     this.options = options;
+    this.repeat = options.repeat;
   }
 
   start() {
     setTimeout(() => {
-      this.startTime = performance.now();
-      let interval = 1000 / this.fps;
-      let lastTimeFrame = this.startTime;
-      let animationFrame = null;
-      if (this.dur === `infinite`) {
-        animationFrame = (currentTime) => {
-          this.requestId = requestAnimationFrame(animationFrame);
-          let delta = currentTime - lastTimeFrame;
-          this.options.f(1, {
-            currentTime,
-            startTime: this.startTime
-          });
-          lastTimeFrame += delta % interval;
-        };
-      } else {
-        animationFrame = (currentTime) => {
-          this.requestId = requestAnimationFrame(animationFrame);
-          let delta = currentTime - lastTimeFrame;
-          if (delta > interval) {
-            let timeFraction = (currentTime - this.startTime) / this.dur;
-            if (timeFraction > 1) {
-              timeFraction = 1;
-              this.stop();
-            }
-            if (timeFraction <= 1) {
-              let progress = this.easing(timeFraction);
-              this.options.f(progress);
-            }
-            lastTimeFrame += delta % interval;
-          }
-        };
-      }
-      animationFrame(lastTimeFrame);
 
+      this.setAnimation();
 
     }, this.del);
   }
+  setAnimation() {
+    this.startTime = performance.now();
+    const interval = 1000 / this.fps;
+    let lastTimeFrame = this.startTime;
+    let animationFrame = null;
+    if (this.dur === `infinite`) {
+      animationFrame = (currentTime) => {
+        this.requestId = requestAnimationFrame(animationFrame);
+        const delta = currentTime - lastTimeFrame;
+        this.options.f(1, {
+          currentTime,
+          startTime: this.startTime
+        });
+        lastTimeFrame += delta % interval;
+      };
+    } else {
+      animationFrame = (currentTime) => {
+        this.requestId = requestAnimationFrame(animationFrame);
+        const delta = currentTime - lastTimeFrame;
+        if (delta > interval) {
+          let timeFraction = (currentTime - this.startTime) / this.dur;
+          if (timeFraction > 1) {
+            timeFraction = 1;
+            this.stop();
+          }
+          if (timeFraction <= 1) {
+            const progress = this.easing(timeFraction);
+            this.options.f(progress);
+          }
+          lastTimeFrame += delta % interval;
+        }
+      };
+    }
+    animationFrame(lastTimeFrame);
+  }
   stop() {
     cancelAnimationFrame(this.requestId);
+    if (this.repeat) {
+      this.setAnimation();
+    }
   }
 }
