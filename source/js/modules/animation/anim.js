@@ -27,10 +27,8 @@ import {AnimTimerGame} from './animScreenGame';
 
 import {addColorTheme} from './animScreenStoty';
 
-import {Anim3D,
-  setSettingsAnim3D} from './animWebGL/anim3D';
+import {Anim3D} from './animWebGL/anim3D';
 
-setSettingsAnim3D();
 
 export const animChangeScreen = () => {
   const anim3D = new Anim3D();
