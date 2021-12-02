@@ -13,7 +13,7 @@ const TEXTURE = Object.freeze({
   },
   scene2: {
     url: `${basicUrlImg}scene-2.png`,
-    hue: 0.06,
+    hue: 0.2,
     loadedTexture: null
   },
   scene3: {
