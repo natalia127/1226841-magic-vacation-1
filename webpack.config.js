@@ -85,7 +85,15 @@ module.exports = {
       },
       {
         test: /\.glsl$/,
-        use: 'webpack-glsl-minify'
+        use: {
+          loader: 'webpack-glsl-minify',
+          options: {
+            output: 'object',
+            preserveDefines: true,
+            preserveUniforms: true,
+            preserveVariables: true,
+          }
+        }
       }
     ]
   },

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-
+import fragmentSheder from './fragmentShader.glsl';
+import vertexShader from './vertexShader.glsl';
 const basicUrlImg = `../../img/module-5/scenes-textures/`;
 const TEXTURE = Object.freeze({
   scene0: {
@@ -34,6 +35,16 @@ window.addEventListener(`load`, () => {
   document.querySelector(`.three--screen`).appendChild(renderer.domElement);
 });
 let isEventResize = null;
+
+const getShaderSettings = (texture)=> ({
+  uniforms: {
+    map: {
+      value: texture
+    }
+  },
+  vertexShader: vertexShader.sourceCode,
+  fragmentShader: fragmentSheder.sourceCode
+});
 export class Anim3D {
   constructor() {
     this.scene = new THREE.Scene();
@@ -60,7 +71,7 @@ export class Anim3D {
   setTexture() {
     this.scene = new THREE.Scene();
     const geometry = new THREE.PlaneGeometry(2048, 1024);
-    const material = new THREE.MeshBasicMaterial({map: textures[this.currentScene].loadedTexture});
+    const material = new THREE.RawShaderMaterial(getShaderSettings(textures[this.currentScene].loadedTexture));
     const image = new THREE.Mesh(geometry, material);
     this.scene.add(image);
     this.renderScene();
