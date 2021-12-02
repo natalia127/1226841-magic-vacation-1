@@ -23,6 +23,17 @@ const TEXTURE = Object.freeze({
     loadedTexture: null
   },
 });
+
+const textures = JSON.parse(JSON.stringify(TEXTURE));
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1024);
+const renderer = new THREE.WebGLRenderer();
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+camera.position.z = 1024;
+window.addEventListener(`load`, () => {
+  document.querySelector(`.three--screen`).appendChild(renderer.domElement);
+});
+let isEventResize = null;
 export class Anim3D {
   constructor() {
     this.scene = new THREE.Scene();
@@ -31,51 +42,44 @@ export class Anim3D {
   }
   init(numberScene = 0) {
     this.currentScene = `scene${numberScene}`;
-    if (Anim3D.textures[this.currentScene].loadedTexture) {
+    if (textures[this.currentScene].loadedTexture) {
       this.setTexture();
     } else {
       this.initTexture();
     }
+    this.initEventListner();
   }
   initTexture() {
     const manager = new THREE.LoadingManager();
-    let texture = new THREE.TextureLoader(manager).load(Anim3D.textures[this.currentScene].url);
+    let texture = new THREE.TextureLoader(manager).load(textures[this.currentScene].url);
     manager.onLoad = () => {
-      Anim3D.textures[this.currentScene].loadedTexture = texture;
+      textures[this.currentScene].loadedTexture = texture;
       this.setTexture();
     };
   }
   setTexture() {
     this.scene = new THREE.Scene();
     const geometry = new THREE.PlaneGeometry(2048, 1024);
-    const material = new THREE.MeshBasicMaterial({map: Anim3D.textures[this.currentScene].loadedTexture});
+    const material = new THREE.MeshBasicMaterial({map: textures[this.currentScene].loadedTexture});
     const image = new THREE.Mesh(geometry, material);
     this.scene.add(image);
     this.renderScene();
   }
 
   renderScene() {
-    Anim3D.renderer.render(this.scene, Anim3D.camera);
+    renderer.render(this.scene, camera);
   }
 
-  static updateSize() {
-    Anim3D.renderer.setSize(window.innerWidth, window.innerHeight);
+  updateSize() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderScene();
   }
+  initEventListner() {
+    if (!isEventResize) {
+      window.addEventListener(`resize`, () => {
+        this.updateSize();
+      });
+      isEventResize = true;
+    }
+  }
 }
-export const setSettingsAnim3D = () => {
-  Anim3D.textures = JSON.parse(JSON.stringify(TEXTURE));
-  Anim3D.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1024);
-  Anim3D.renderer = new THREE.WebGLRenderer();
-  Anim3D.renderer.setPixelRatio(window.devicePixelRatio);
-  Anim3D.renderer.setSize(window.innerWidth, window.innerHeight);
-  Anim3D.camera.position.z = 1024;
-
-  window.addEventListener(`resize`, () => {
-    Anim3D.updateSize();
-  });
-
-  window.addEventListener(`load`, () => {
-    document.querySelector(`.three--screen`).appendChild(Anim3D.renderer.domElement);
-  });
-};
