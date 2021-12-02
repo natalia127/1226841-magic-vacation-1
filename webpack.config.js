@@ -14,7 +14,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".js", ".sass", ".scss", ".css"],
+    extensions: [".js", ".sass", ".scss", ".css", '.glsl'],
     modules: ['./node_modules/'],
   },
   mode: 'development',
@@ -82,6 +82,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.glsl$/,
+        use: 'webpack-glsl-minify'
       }
     ]
   },
