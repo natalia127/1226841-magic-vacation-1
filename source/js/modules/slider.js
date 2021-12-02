@@ -1,9 +1,9 @@
 import Swiper from "swiper";
 import {addColorTheme} from "./animation/animScreenStoty";
+import {Anim3D} from "./animation/animWebGL/anim3D";
 export default () => {
   let storySlider;
-  let sliderContainer = document.getElementById(`story`);
-  sliderContainer.style.backgroundImage = `url('img/slide1.jpg'), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
+  const anim3D = new Anim3D();
 
   const setSlider = function () {
     if (window.innerWidth / window.innerHeight < 1 || window.innerWidth < 769) {
@@ -21,26 +21,26 @@ export default () => {
               storySlider.activeIndex === 0 ||
               storySlider.activeIndex === 1
             ) {
-              sliderContainer.style.backgroundImage = `url('img/slide1.jpg'), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
               addColorTheme(`dark-purple`);
+              anim3D.init(1);
             } else if (
               storySlider.activeIndex === 2 ||
               storySlider.activeIndex === 3
             ) {
-              sliderContainer.style.backgroundImage = `url('img/slide2.jpg'), linear-gradient(180deg, rgba(45, 54, 179, 0) 0%, #2A34B0 16.85%)`;
               addColorTheme(`dark-blue`);
+              anim3D.init(2);
             } else if (
               storySlider.activeIndex === 4 ||
               storySlider.activeIndex === 5
             ) {
-              sliderContainer.style.backgroundImage = `url('img/slide3.jpg'), linear-gradient(180deg, rgba(92, 138, 198, 0) 0%, #5183C4 16.85%)`;
               addColorTheme(`light-blue`);
+              anim3D.init(3);
             } else if (
               storySlider.activeIndex === 6 ||
               storySlider.activeIndex === 7
             ) {
-              sliderContainer.style.backgroundImage = `url('img/slide4.jpg'), linear-gradient(180deg, rgba(45, 39, 63, 0) 0%, #2F2A42 16.85%)`;
               addColorTheme(`dark-purple`);
+              anim3D.init(4);
             }
           },
           resize: () => {
@@ -76,17 +76,21 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
-              sliderContainer.style.backgroundImage = `url('img/slide1.jpg')`;
               addColorTheme(`dark-purple`);
+              anim3D.init(1);
+
             } else if (storySlider.activeIndex === 2) {
-              sliderContainer.style.backgroundImage = `url('img/slide2.jpg')`;
               addColorTheme(`dark-blue`);
+              anim3D.init(2);
+
             } else if (storySlider.activeIndex === 4) {
-              sliderContainer.style.backgroundImage = `url('img/slide3.jpg')`;
               addColorTheme(`light-blue`);
+              anim3D.init(3);
+
             } else if (storySlider.activeIndex === 6) {
-              sliderContainer.style.backgroundImage = `url('img/slide4.jpg')`;
               addColorTheme(`dark-purple`);
+              anim3D.init(4);
+
             }
           },
           resize: () => {
