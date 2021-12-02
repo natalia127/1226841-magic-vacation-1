@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import fragmentSheder from './fragmentShader.glsl';
 import vertexShader from './vertexShader.glsl';
-const basicUrlImg = `../../img/module-5/scenes-textures/`;
+const basicUrlImg = `./img/module-5/scenes-textures/`;
+
 const TEXTURE = Object.freeze({
   scene0: {
     url: `${basicUrlImg}scene-0.png`,
