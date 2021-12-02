@@ -13,6 +13,7 @@ const TEXTURE = Object.freeze({
   },
   scene2: {
     url: `${basicUrlImg}scene-2.png`,
+    hue: 0.06,
     loadedTexture: null
   },
   scene3: {
@@ -36,10 +37,13 @@ window.addEventListener(`load`, () => {
 });
 let isEventResize = null;
 
-const getShaderSettings = (texture)=> ({
+const getShaderSettings = (texture, hue)=> ({
   uniforms: {
     map: {
-      value: texture
+      value: texture,
+    },
+    hue: {
+      value: hue
     }
   },
   vertexShader: vertexShader.sourceCode,
@@ -71,7 +75,8 @@ export class Anim3D {
   setTexture() {
     this.scene = new THREE.Scene();
     const geometry = new THREE.PlaneGeometry(2048, 1024);
-    const material = new THREE.RawShaderMaterial(getShaderSettings(textures[this.currentScene].loadedTexture));
+    const hueColor = textures[this.currentScene].hue || 0.0;
+    const material = new THREE.RawShaderMaterial(getShaderSettings(textures[this.currentScene].loadedTexture, hueColor));
     const image = new THREE.Mesh(geometry, material);
     this.scene.add(image);
     this.renderScene();
