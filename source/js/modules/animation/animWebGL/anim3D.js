@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import fragmentSheder from './fragmentShader.glsl';
+import frShaderDistortion from './frShaderDistortion.glsl';
+import fragmentShader from './fragmentShader.glsl';
 import vertexShader from './vertexShader.glsl';
 const basicUrlImg = `./img/module-5/scenes-textures/`;
 
@@ -14,7 +15,7 @@ const TEXTURE = Object.freeze({
   },
   scene2: {
     url: `${basicUrlImg}scene-2.png`,
-    hue: 0.2,
+    withDistortion: true,
     loadedTexture: null
   },
   scene3: {
@@ -33,22 +34,27 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.z = 1024;
+
 window.addEventListener(`load`, () => {
   document.querySelector(`.three--screen`).appendChild(renderer.domElement);
 });
-let isEventResize = null;
 
-const getShaderSettings = (texture, hue)=> ({
+let isEventResize = null;
+let canvasSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+const getShaderSettings = (texture, withDistortion)=> ({
   uniforms: {
-    map: {
+    uMap: {
       value: texture,
     },
-    hue: {
-      value: hue
-    }
+    uCanvasSize: {
+      value: [canvasSize.width, canvasSize.height]
+    },
   },
   vertexShader: vertexShader.sourceCode,
-  fragmentShader: fragmentSheder.sourceCode
+  fragmentShader: withDistortion ? frShaderDistortion.sourceCode : fragmentShader.sourceCode
 });
 export class Anim3D {
   constructor() {
@@ -76,8 +82,8 @@ export class Anim3D {
   setTexture() {
     this.scene = new THREE.Scene();
     const geometry = new THREE.PlaneGeometry(2048, 1024);
-    const hueColor = textures[this.currentScene].hue || 0.0;
-    const material = new THREE.RawShaderMaterial(getShaderSettings(textures[this.currentScene].loadedTexture, hueColor));
+    const withDistortion = textures[this.currentScene].withDistortion;
+    const material = new THREE.RawShaderMaterial(getShaderSettings(textures[this.currentScene].loadedTexture, withDistortion));
     const image = new THREE.Mesh(geometry, material);
     this.scene.add(image);
     this.renderScene();
@@ -90,7 +96,10 @@ export class Anim3D {
   updateSize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderScene();
+    canvasSize.width = window.innerWidth;
+    canvasSize.height = window.innerHeight;
   }
+
   initEventListner() {
     if (!isEventResize) {
       window.addEventListener(`resize`, () => {
@@ -99,4 +108,6 @@ export class Anim3D {
       isEventResize = true;
     }
   }
+
+
 }
