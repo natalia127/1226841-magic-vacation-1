@@ -13,6 +13,8 @@ const Bubl bubl1 = Bubl(0.15, vec2(0.4, 0.4));
 const Bubl bubl2 = Bubl(0.1, vec2(0.2, 0.3));
 const Bubl bubl3 = Bubl(0.05, vec2(0.6, 0.3));
 
+const float borderWidthBubl = 0.003;
+const vec4 colorFlare = vec4(1.0, 1.0, 1.0, 0.15);
 const float distortionBubl = 0.6;
 
 const float hue = 0.2;
@@ -40,13 +42,35 @@ vec2 caclBublCoord(vec2 bublCoord) {
   vec2 newBublCoord = vec2(uCanvasSize.x * bublCoord.x,  uCanvasSize.y * bublCoord.y);
   return newBublCoord;
 }
+vec4 blendOutline(vec4 texture, vec4 outline) {
+  return vec4(mix(texture.rgb, outline.rgb, outline.a), texture.a);
+}
+
+bool isBetweenAngles(vec2 point) {
+  float angle = atan(point.y, point.x);
+  return angle >= 2.0 && angle <= 3.0;
+}
+
 
 vec4 getTexelWithBubl(Bubl bubl, vec4 texel){
   vec2 bublCoords = caclBublCoord(bubl.coords);
   float dist = distance(gl_FragCoord.xy, bublCoords) / uCanvasSize.y;
+  // искажение в пузыре
   if (dist < bubl.radius) {
     vec2 direction = (vec2(bublCoords.x / uCanvasSize.x, bublCoords.y / uCanvasSize.y ) - vUv);
     texel = texture2D( uMap, vUv + direction * (distortionBubl - getMagnificationFactor(bubl.radius) * dist) *1.2);
+  }
+
+  //контур пузыря
+  if (dist > bubl.radius && dist <= bubl.radius + borderWidthBubl) {
+    texel = blendOutline(texture2D( uMap, vUv), colorFlare);
+  }
+
+  //контур блика
+  float distanceFlare = bubl.radius * 0.85;
+  bool isFlare = isBetweenAngles(gl_FragCoord.xy - bublCoords);
+  if (dist > distanceFlare && dist < distanceFlare + borderWidthBubl && isFlare) {
+    texel = blendOutline(texture2D( uMap, vUv), colorFlare);
   }
   return texel;
 }
