@@ -46,7 +46,7 @@ vec4 getTexelWithBubl(Bubl bubl, vec4 texel){
   float dist = distance(gl_FragCoord.xy, bublCoords) / uCanvasSize.y;
   if (dist < bubl.radius) {
     vec2 direction = (vec2(bublCoords.x / uCanvasSize.x, bublCoords.y / uCanvasSize.y ) - vUv);
-    texel = texture2D( uMap, vUv + direction * (distortionBubl - getMagnificationFactor(bubl.radius) * dist) );
+    texel = texture2D( uMap, vUv + direction * (distortionBubl - getMagnificationFactor(bubl.radius) * dist) *1.2);
   }
   return texel;
 }
