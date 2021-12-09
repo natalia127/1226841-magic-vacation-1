@@ -42,6 +42,9 @@ export class Animation {
           if (timeFraction > 1) {
             timeFraction = 1;
             this.stop();
+            if (this.repeat) {
+              this.setAnimation();
+            }
           }
           if (timeFraction <= 1) {
             const progress = this.easing(timeFraction);
@@ -55,8 +58,5 @@ export class Animation {
   }
   stop() {
     cancelAnimationFrame(this.requestId);
-    if (this.repeat) {
-      this.setAnimation();
-    }
   }
 }

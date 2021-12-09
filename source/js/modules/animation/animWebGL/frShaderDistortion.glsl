@@ -5,19 +5,24 @@ const mat3 rgb2yiq = mat3(0.299, 0.587, 0.114, 0.595716, -0.274453, -0.321263, 0
 const mat3 yiq2rgb = mat3(1.0, 0.9563, 0.6210, 1.0, -0.2721, -0.6474, 1.0, -1.1070, 1.7046);
 
 struct Bubl {
-  float radius;
   vec2 coords;
+  float radius;
+  float startCoordX;
+  float amplitude;
 };
 
-const Bubl bubl1 = Bubl(0.15, vec2(0.4, 0.4));
-const Bubl bubl2 = Bubl(0.1, vec2(0.2, 0.3));
-const Bubl bubl3 = Bubl(0.05, vec2(0.6, 0.3));
+const Bubl bubl1 = Bubl(vec2(0.0, 0.0), 0.07, 0.4, 0.05);
+const Bubl bubl2 = Bubl(vec2(0.0, 0.0), 0.05, 0.2, 0.06 );
+const Bubl bubl3 = Bubl(vec2(0.0, 0.0), 0.02, 0.6, 0.04  );
 
 const float borderWidthBubl = 0.003;
 const vec4 colorFlare = vec4(1.0, 1.0, 1.0, 0.15);
 const float distortionBubl = 0.6;
 
-uniform float uProgress;
+uniform float uProgressHue;
+uniform float uProgressBubl1;
+uniform float uProgressBubl2;
+uniform float uProgressBubl3;
 uniform vec2 uCanvasSize;
 
 varying vec2 vUv;
@@ -30,10 +35,10 @@ vec4 getHueColor(vec4 color){
    float maxHue = 0.4;
    float minHue = -0.2;
    float hue = 0.0;
-    if (uProgress < 0.5) {
-      hue = minHue + uProgress * (maxHue - minHue);
+    if (uProgressHue < 0.5) {
+      hue = minHue + uProgressHue * (maxHue - minHue);
     } else {
-      hue = maxHue + uProgress * (minHue - maxHue);
+      hue = maxHue + uProgressHue * (minHue - maxHue);
     }
     vec3 yColor = rgb2yiq * color.rgb;
 
@@ -46,7 +51,7 @@ vec4 getHueColor(vec4 color){
     return vec4(yiq2rgb*yFinalColor, 1.0);
 }
 
-vec2 caclBublCoord(vec2 bublCoord) {
+vec2 recaclBublCoord(vec2 bublCoord) {
   vec2 newBublCoord = vec2(uCanvasSize.x * bublCoord.x,  uCanvasSize.y * bublCoord.y);
   return newBublCoord;
 }
@@ -59,9 +64,18 @@ bool isBetweenAngles(vec2 point) {
   return angle >= 2.0 && angle <= 3.0;
 }
 
+vec2 getBublCoords(Bubl bubl, float progress){
+  float fromY = 0.0 - bubl.radius;
+  float toY = 1.0 + bubl.radius;
+  float offset = bubl.amplitude * pow(1.0 - progress, 1.0) * sin(progress * 3.14 * 5.0);
+  float x = (offset + bubl.startCoordX);
+  float y = (toY - fromY)* progress + fromY;
+  return recaclBublCoord(vec2(x, y));
 
-vec4 getTexelWithBubl(Bubl bubl, vec4 texel){
-  vec2 bublCoords = caclBublCoord(bubl.coords);
+}
+
+vec4 getTexelWithBubl(Bubl bubl, vec4 texel, float progress){
+  vec2 bublCoords = getBublCoords(bubl, progress);
   float dist = distance(gl_FragCoord.xy, bublCoords) / uCanvasSize.y;
   // искажение в пузыре
   if (dist < bubl.radius) {
@@ -85,9 +99,15 @@ vec4 getTexelWithBubl(Bubl bubl, vec4 texel){
 
 vec4 editTexel(){
   vec4 texel = texture2D( uMap, vUv);
-  texel = getTexelWithBubl(bubl1, texel);
-  texel = getTexelWithBubl(bubl2, texel);
-  texel = getTexelWithBubl(bubl3, texel);
+  if (uProgressBubl1 > 0.0) {
+    texel = getTexelWithBubl(bubl1, texel, uProgressBubl1);
+  }
+  if (uProgressBubl2 > 0.0) {
+    texel = getTexelWithBubl(bubl2, texel, uProgressBubl2);
+  }
+  if (uProgressBubl3 > 0.0) {
+    texel = getTexelWithBubl(bubl3, texel, uProgressBubl3);
+  }
 
   return texel;
 }
