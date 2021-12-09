@@ -24,26 +24,25 @@ const setup3dInfrastructure = ()=> {
 
   document.querySelector(`.three--screen`).appendChild(renderer.domElement);
 
-  let isEventResize = null;
   const infrastructure = {
     renderer,
     canvasSize,
     camera,
-    isEventResize,
     geometry
   };
   return infrastructure;
 };
 let infrastructure = setup3dInfrastructure();
+let activeEventListener = null;
+let activeAnimates = null;
 export class Scene3D {
   constructor(numberScene) {
     this.urlTexture = `${basicUrlImg}scene-${numberScene}.png`;
     this.texture = null;
     this.material = null;
     this.numberScene = numberScene;
+    this.animations = [];
     this.scene = new THREE.Scene();
-    this.fps = 60;
-    this.timeStart = -1;
     this.isAnimate = !!scenesWithAnimate.includes(numberScene);
   }
 
@@ -77,7 +76,16 @@ export class Scene3D {
         uCanvasSize: {
           value: [infrastructure.canvasSize.width, infrastructure.canvasSize.height]
         },
-        uProgress: {
+        uProgressHue: {
+          value: 0
+        },
+        uProgressBubl1: {
+          value: 0
+        },
+        uProgressBubl2: {
+          value: 0
+        },
+        uProgressBubl3: {
           value: 0
         }
       },
@@ -90,27 +98,70 @@ export class Scene3D {
     this.texture = loadedTexture[this.numberScene];
     this.setMaterial();
     const image = new THREE.Mesh(infrastructure.geometry, this.material);
-
+    this.scene = new THREE.Scene();
     this.scene.add(image);
-    this.renderScene();
 
     if (this.isAnimate) {
       this.renderWithAnim();
+    } else {
+      this.renderScene();
     }
     this.initEventListner();
 
   }
   renderWithAnim() {
-    this.animation = new Animation(
-        {
-          f: (progress) => {
-            this.material.uniforms.uProgress.value = progress;
+    this.animations.push(
+        new Animation(
+            {
+              f: (progress) => {
+                this.material.uniforms.uProgressHue.value = progress;
+              },
+              dur: 2000,
+              repeat: true
+            }
+        ),
+        new Animation(
+            {
+              f: (progress) => {
+                this.material.uniforms.uProgressBubl1.value = progress;
+              },
+              dur: 3000,
+              repeat: true
+            }
+        ),
+        new Animation(
+            {
+              f: (progress) => {
+                this.material.uniforms.uProgressBubl2.value = progress;
+              },
+              dur: 3000,
+              del: 800,
+              repeat: true
+            }
+        ),
+        new Animation(
+            {
+              f: (progress) => {
+                this.material.uniforms.uProgressBubl3.value = progress;
+
+              },
+              dur: 3000,
+              del: 1200,
+              repeat: true
+            }
+        ),
+        new Animation({
+          f: () => {
             this.renderScene();
           },
-          dur: 2000
-        }
+          dur: `infinite`
+        })
     );
-    this.animation.start();
+    this.animations.forEach((animation) => {
+      animation.start();
+    });
+    this.renderScene();
+    activeAnimates = this.animations;
   }
   renderScene() {
     infrastructure.renderer.render(this.scene, infrastructure.camera);
@@ -124,15 +175,18 @@ export class Scene3D {
   }
   stopRender() {
     this.dropEventListner();
-    if (this.animation) {
-      this.animation.stop();
+    if (activeAnimates) {
+      activeAnimates.forEach((animation) => {
+        animation.start();
+      });
     }
   }
 
   initEventListner() {
-    window.addEventListener(`resize`, this.updateSize.bind(this));
+    activeEventListener = this.updateSize.bind(this);
+    window.addEventListener(`resize`, activeEventListener);
   }
   dropEventListner() {
-    window.removeEventListener(`resize`, this.updateSize.bind(this));
+    window.removeEventListener(`resize`, activeEventListener);
   }
 }
