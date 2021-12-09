@@ -1,9 +1,13 @@
 import Swiper from "swiper";
 import {addColorTheme} from "./animation/animScreenStoty";
-import {Anim3D} from "./animation/animWebGL/anim3D";
+import {Scene3D} from './animation/animWebGL/scene3D';
+
 export default () => {
   let storySlider;
-  const anim3D = new Anim3D();
+  const scene1 = new Scene3D(1);
+  const scene2 = new Scene3D(2);
+  const scene3 = new Scene3D(3);
+  const scene4 = new Scene3D(4);
 
   const setSlider = function () {
     if (window.innerWidth / window.innerHeight < 1 || window.innerWidth < 769) {
@@ -22,25 +26,27 @@ export default () => {
               storySlider.activeIndex === 1
             ) {
               addColorTheme(`dark-purple`);
-              anim3D.init(1);
+              scene1.init();
             } else if (
               storySlider.activeIndex === 2 ||
               storySlider.activeIndex === 3
             ) {
               addColorTheme(`dark-blue`);
-              anim3D.init(2);
+              scene2.init();
+
             } else if (
               storySlider.activeIndex === 4 ||
               storySlider.activeIndex === 5
             ) {
               addColorTheme(`light-blue`);
-              anim3D.init(3);
+              scene3.init();
+
             } else if (
               storySlider.activeIndex === 6 ||
               storySlider.activeIndex === 7
             ) {
               addColorTheme(`dark-purple`);
-              anim3D.init(4);
+              scene4.init();
             }
           },
           resize: () => {
@@ -77,19 +83,19 @@ export default () => {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
               addColorTheme(`dark-purple`);
-              anim3D.init(1);
+              scene1.init();
 
             } else if (storySlider.activeIndex === 2) {
               addColorTheme(`dark-blue`);
-              anim3D.init(2);
+              scene2.init();
 
             } else if (storySlider.activeIndex === 4) {
               addColorTheme(`light-blue`);
-              anim3D.init(3);
+              scene3.init();
 
             } else if (storySlider.activeIndex === 6) {
               addColorTheme(`dark-purple`);
-              anim3D.init(4);
+              scene4.init();
 
             }
           },

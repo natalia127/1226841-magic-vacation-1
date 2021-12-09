@@ -17,9 +17,9 @@ const float borderWidthBubl = 0.003;
 const vec4 colorFlare = vec4(1.0, 1.0, 1.0, 0.15);
 const float distortionBubl = 0.6;
 
-const float hue = 0.2;
-uniform float uTime;
+uniform float uProgress;
 uniform vec2 uCanvasSize;
+
 varying vec2 vUv;
 
 float getMagnificationFactor(float radiusBubl) {
@@ -27,6 +27,14 @@ float getMagnificationFactor(float radiusBubl) {
 }
 
 vec4 getHueColor(vec4 color){
+   float maxHue = 0.4;
+   float minHue = -0.2;
+   float hue = 0.0;
+    if (uProgress < 0.5) {
+      hue = minHue + uProgress * (maxHue - minHue);
+    } else {
+      hue = maxHue + uProgress * (minHue - maxHue);
+    }
     vec3 yColor = rgb2yiq * color.rgb;
 
     float originalHue = atan(yColor.b, yColor.g);
