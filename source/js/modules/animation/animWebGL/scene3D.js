@@ -15,11 +15,11 @@ const setup3dInfrastructure = ()=> {
     height: initialHeight
   };
 
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1024);
+  const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1024);
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.position.z = 1024;
+  camera.position.z = 750;
   const geometry = new THREE.PlaneGeometry(2048, 1024);
 
   document.querySelector(`.three--screen`).appendChild(renderer.domElement);
@@ -37,6 +37,7 @@ let activeEventListener = null;
 let activeAnimates = null;
 export class Scene3D {
   constructor(numberScene) {
+    this.infrastructure = infrastructure;
     this.urlTexture = `${basicUrlImg}scene-${numberScene}.png`;
     this.texture = null;
     this.material = null;
@@ -74,7 +75,7 @@ export class Scene3D {
           value: this.texture,
         },
         uCanvasSize: {
-          value: [infrastructure.canvasSize.width, infrastructure.canvasSize.height]
+          value: [this.infrastructure.canvasSize.width, this.infrastructure.canvasSize.height]
         },
         uProgressHue: {
           value: 0
@@ -97,7 +98,7 @@ export class Scene3D {
     this.stopRender();
     this.texture = loadedTexture[this.numberScene];
     this.setMaterial();
-    const image = new THREE.Mesh(infrastructure.geometry, this.material);
+    const image = new THREE.Mesh(this.infrastructure.geometry, this.material);
     this.scene = new THREE.Scene();
     this.scene.add(image);
 
@@ -164,12 +165,12 @@ export class Scene3D {
     activeAnimates = this.animations;
   }
   renderScene() {
-    infrastructure.renderer.render(this.scene, infrastructure.camera);
+    this.infrastructure.renderer.render(this.scene, this.infrastructure.camera);
   }
   updateSize() {
-    infrastructure.canvasSize.width = window.innerWidth;
-    infrastructure.canvasSize.height = window.innerHeight;
-    infrastructure.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.infrastructure.canvasSize.width = window.innerWidth;
+    this.infrastructure.canvasSize.height = window.innerHeight;
+    this.infrastructure.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderScene();
 
   }
