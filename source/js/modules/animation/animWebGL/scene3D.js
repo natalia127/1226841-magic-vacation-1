@@ -1,12 +1,10 @@
 import * as THREE from 'three';
-import frShaderDistortion from './frShaderDistortion.glsl';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import fragmentShader from './fragmentShader.glsl';
 import vertexShader from './vertexShader.glsl';
-import {Animation} from '../animCanvas/Animation';
 
 const basicUrlImg = `./img/module-5/scenes-textures/`;
 const loadedTexture = {};
-const scenesWithAnimate = [2];
 const setup3dInfrastructure = ()=> {
   const initialWidth = window.innerWidth;
   const initialHeight = window.innerHeight;
@@ -15,11 +13,16 @@ const setup3dInfrastructure = ()=> {
     height: initialHeight
   };
 
-  const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1024);
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.position.z = 750;
+  const controls = new OrbitControls(camera, document.querySelector('body'));
+
+  camera.position.z = 1024;
+
+  controls.update();
+
   const geometry = new THREE.PlaneGeometry(2048, 1024);
 
   document.querySelector(`.three--screen`).appendChild(renderer.domElement);
@@ -28,13 +31,15 @@ const setup3dInfrastructure = ()=> {
     renderer,
     canvasSize,
     camera,
-    geometry
+    geometry,
+    controls
   };
   return infrastructure;
 };
 let infrastructure = setup3dInfrastructure();
 let activeEventListener = null;
-let activeAnimates = null;
+let requestId = null;
+
 export class Scene3D {
   constructor(numberScene) {
     this.infrastructure = infrastructure;
@@ -44,7 +49,7 @@ export class Scene3D {
     this.numberScene = numberScene;
     this.animations = [];
     this.scene = new THREE.Scene();
-    this.isAnimate = !!scenesWithAnimate.includes(numberScene);
+    this.isTestAnimate = true;
   }
 
   async init() {
@@ -73,25 +78,11 @@ export class Scene3D {
       uniforms: {
         uMap: {
           value: this.texture,
-        },
-        uCanvasSize: {
-          value: [this.infrastructure.canvasSize.width, this.infrastructure.canvasSize.height]
-        },
-        uProgressHue: {
-          value: 0
-        },
-        uProgressBubl1: {
-          value: 0
-        },
-        uProgressBubl2: {
-          value: 0
-        },
-        uProgressBubl3: {
-          value: 0
         }
+
       },
       vertexShader: vertexShader.sourceCode,
-      fragmentShader: this.isAnimate ? frShaderDistortion.sourceCode : fragmentShader.sourceCode
+      fragmentShader: fragmentShader.sourceCode
     });
   }
   setScene() {
@@ -101,71 +92,17 @@ export class Scene3D {
     const image = new THREE.Mesh(this.infrastructure.geometry, this.material);
     this.scene = new THREE.Scene();
     this.scene.add(image);
-
-    if (this.isAnimate) {
-      this.renderWithAnim();
-    } else {
-      this.renderScene();
-    }
+    this.setLight();
+    this.renderScene();
     this.initEventListner();
 
   }
-  renderWithAnim() {
-    this.animations.push(
-        new Animation(
-            {
-              f: (progress) => {
-                this.material.uniforms.uProgressHue.value = progress;
-              },
-              dur: 2000,
-              repeat: true
-            }
-        ),
-        new Animation(
-            {
-              f: (progress) => {
-                this.material.uniforms.uProgressBubl1.value = progress;
-              },
-              dur: 3000,
-              repeat: true
-            }
-        ),
-        new Animation(
-            {
-              f: (progress) => {
-                this.material.uniforms.uProgressBubl2.value = progress;
-              },
-              dur: 3000,
-              del: 800,
-              repeat: true
-            }
-        ),
-        new Animation(
-            {
-              f: (progress) => {
-                this.material.uniforms.uProgressBubl3.value = progress;
-
-              },
-              dur: 3000,
-              del: 1200,
-              repeat: true
-            }
-        ),
-        new Animation({
-          f: () => {
-            this.renderScene();
-          },
-          dur: `infinite`
-        })
-    );
-    this.animations.forEach((animation) => {
-      animation.start();
-    });
-    this.renderScene();
-    activeAnimates = this.animations;
-  }
   renderScene() {
     this.infrastructure.renderer.render(this.scene, this.infrastructure.camera);
+    this.infrastructure.controls.update();
+    if (this.isTestAnimate) {
+      requestId = requestAnimationFrame(this.renderScene.bind(this));
+    }
   }
   updateSize() {
     this.infrastructure.canvasSize.width = window.innerWidth;
@@ -175,12 +112,8 @@ export class Scene3D {
 
   }
   stopRender() {
+    cancelAnimationFrame(requestId);
     this.dropEventListner();
-    if (activeAnimates) {
-      activeAnimates.forEach((animation) => {
-        animation.start();
-      });
-    }
   }
 
   initEventListner() {
@@ -189,5 +122,30 @@ export class Scene3D {
   }
   dropEventListner() {
     window.removeEventListener(`resize`, activeEventListener);
+  }
+
+  setLight() {
+    const light = new THREE.Group();
+
+    // Light 1
+    const lightUnit1 = new THREE.DirectionalLight(new THREE.Color(`rgb(255,255,255)`), 0.84);
+    const targetObject = new THREE.Object3D();
+    targetObject.position.set(0, this.infrastructure.camera.position.z * Math.tan(15 * THREE.Math.DEG2RAD), 0);
+    this.scene.add(targetObject);
+    lightUnit1.target = targetObject;
+    light.add(lightUnit1);
+
+    // Light 2
+    const lightUnit2 = new THREE.PointLight(new THREE.Color(`rgb(246,242,255)`), 0.9, 0, 0.5);
+    lightUnit2.position.set(-785, 350, -710);
+    light.add(lightUnit2);
+
+    // // Light 3
+    const lightUnit3 = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.95, 0, 0.5);
+    lightUnit3.position.set(730, 800, -985);
+    light.add(lightUnit3);
+
+    light.position.z = this.infrastructure.camera.position.z;
+    this.scene.add(light);
   }
 }
