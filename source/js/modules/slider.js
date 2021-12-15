@@ -1,6 +1,6 @@
 import Swiper from "swiper";
 import {addColorTheme} from "./animation/animScreenStoty";
-import {Scene3D} from './animation/animWebGL/Scene3D';
+import {Scene3D} from './animation/animWebGL/scene3D';
 import {SceneStory2} from './animation/animWebGL/SceneStory2';
 import {SceneStory3} from './animation/animWebGL/SceneStory3';
 

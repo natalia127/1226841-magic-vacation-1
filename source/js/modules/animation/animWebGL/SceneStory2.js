@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import frShaderDistortion from './frShaderDistortion.glsl';
 import vertexShader from './vertexShader.glsl';
 import {Animation} from '../animCanvas/Animation';
-import {Scene3D} from './Scene3D';
+import {Scene3D} from './scene3D';
 import {ObjectsScene2} from './scene2/ObjectsScene2';
 let activeAnimates = null;
 
