@@ -1,4 +1,4 @@
-import {Scene3D} from "./scene3D";
+import {Scene3D} from "./Scene3D";
 import * as THREE from 'three';
 
 export class TestScene extends Scene3D {
