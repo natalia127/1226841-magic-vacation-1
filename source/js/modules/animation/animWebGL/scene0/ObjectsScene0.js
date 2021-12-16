@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {ExtrudedSvg} from '../extrudeSvg/ExtrudeSvg';
-import {degToRadians} from '../../utils';
+import {degToRadians} from '../../utilsGeometry';
+
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
 export class ObjectsScene0 extends THREE.Group {
   constructor() {

@@ -18,7 +18,6 @@ function inQuad(x) {
   return x * x;
 }
 
-export const degToRadians = (deg) => (deg * Math.PI) / 180;
 
 export const ease = {
   outElastic,

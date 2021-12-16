@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {Lamp} from './Lamp';
-import {degToRadians} from '../../utils';
+import {degToRadians} from '../../utilsGeometry';
+
 import {ExtrudedSvg} from '../extrudeSvg/ExtrudeSvg';
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
 export class ObjectsScene2 extends THREE.Group {
