@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import fragmentShader from './fragmentShader.glsl';
-import vertexShader from './vertexShader.glsl';
+import fragmentShader from './shaders/fragmentShader.glsl';
+import vertexShader from './shaders/vertexShader.glsl';
 
 const basicUrlImg = `./img/module-5/scenes-textures/`;
 const loadedTexture = {};

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import frShaderDistortion from './frShaderDistortion.glsl';
-import vertexShader from './vertexShader.glsl';
+import frShaderDistortion from './shaders/frShaderDistortion.glsl';
+import vertexShader from './shaders/vertexShader.glsl';
 import {Animation} from '../animCanvas/Animation';
 import {Scene3D} from './scene3D';
 import {ObjectsScene2} from './scene2/ObjectsScene2';
