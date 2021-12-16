@@ -27,13 +27,15 @@ import {AnimTimerGame} from './animScreenGame';
 
 import {addColorTheme} from './animScreenStoty';
 
-import {Scene3D} from './animWebGL/scene3D';
+import {SceneStory1} from './animWebGL/SceneStory1';
+
+import {SceneTop} from './animWebGL/SceneTop';
 
 export const animChangeScreen = () => {
 
   let handlers = {
     [`anim${TOP}`]: (el) => {
-      const scene0 = new Scene3D(0);
+      const scene0 = new SceneTop(0);
       scene0.init();
 
       $(el).findEl(`.intro__message`).addClass(`intro__message--anim`);
@@ -49,7 +51,7 @@ export const animChangeScreen = () => {
       const animTimerGame = new AnimTimerGame($(el).findEl(`.game__counter`).$el);
     },
     [`anim${STORY}`]: (el, nameTheme = `dark-purple`) => {
-      const scene1 = new Scene3D(1);
+      const scene1 = new SceneStory1();
       scene1.init();
 
       addColorTheme(nameTheme);
