@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import {degToRadians} from '../../utils';
+import {degToRadians} from '../../utilsGeometry';
+
 
 export class Snowman extends THREE.Group {
   constructor() {

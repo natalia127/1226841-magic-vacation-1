@@ -1,7 +1,10 @@
 import * as THREE from 'three';
 import {ExtrudedSvg} from '../extrudeSvg/ExtrudeSvg';
-import {degToRadians} from '../../utils';
+import {degToRadians} from '../../utilsGeometry';
+
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
+import {Mat} from './Mat';
+import {Saturn} from './Saturn';
 export class ObjectsScene1 extends THREE.Group {
   constructor() {
     super();
@@ -11,7 +14,20 @@ export class ObjectsScene1 extends THREE.Group {
   async constructChildren() {
     this.mapShapes = await getMapShapes();
     this.addFlower();
+    this.addMat();
+    this.addSaturn();
 
+  }
+  addMat() {
+    const mat = new Mat();
+    mat.rotation.copy(new THREE.Euler(degToRadians(20), degToRadians(-50), degToRadians(0)), `XYZ`);
+    mat.position.set(0, -30, -600);
+    this.add(mat);
+  }
+  addSaturn() {
+    const saturn = new Saturn();
+    saturn.position.set(70, 260, 0);
+    this.add(saturn);
   }
   addFlower() {
     const flower = new ExtrudedSvg(this.mapShapes, `flower`);
