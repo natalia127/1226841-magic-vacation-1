@@ -1,67 +1,78 @@
 import {SVGLoader} from 'three/examples/jsm/loaders/SVGLoader';
+import {mapColors} from '../generalSettings/colors';
+import {SOFT, BASIC} from '../generalSettings/typeMaterials';
 
 const mapShapes = Object.freeze({
   flamingo: {
     id: `flamingo`,
     depth: 8,
     cap: 2,
-    color: `#C75762`,
-    shape: null
+    material: SOFT,
+    optionsMaterial: {color: mapColors.lightDominantRed},
+    shape: null,
   },
   snowflake: {
     id: `snowflake`,
     depth: 8,
     cap: 2,
-    color: `#224fa7`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.blue},
     shape: null
   },
   question: {
     id: `question`,
     depth: 8,
     cap: 2,
-    color: `#224fa7`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.blue},
     shape: null
   },
   leafKeyhole: {
     id: `leaf`,
     depth: 8,
     cap: 2,
-    color: `#07925d`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.green},
     shape: null
   },
   leafIntro: {
     id: `leaf`,
     depth: 3,
     cap: 3,
-    color: `#07925d`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.green},
     shape: null
   },
   leaf1Scene2: {
     id: `leaf`,
     depth: 3,
     cap: 3,
-    color: `#07925d`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.green},
     shape: null
   },
   leaf2Scene2: {
     id: `leaf`,
     depth: 3,
     cap: 3,
-    color: `#07925d`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.green},
     shape: null
   },
   keyhole: {
     id: `keyhole`,
     depth: 20,
     cap: 2,
-    color: `#4e4069`,
+    material: SOFT,
+    optionsMaterial: {color: mapColors.darkPurple},
     shape: null
   },
   flower: {
     id: `flower`,
     depth: 4,
     cap: 2,
-    color: `#6649a3`,
+    material: BASIC,
+    optionsMaterial: {color: mapColors.darkPurple},
     shape: null
   },
 });

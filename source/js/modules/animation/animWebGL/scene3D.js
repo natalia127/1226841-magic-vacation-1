@@ -141,7 +141,7 @@ export class Scene3D {
     light.add(lightUnit2);
 
     // // Light 3
-    const lightUnit3 = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.95, 0, 0.5);
+    const lightUnit3 = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.9, 0, 0.5);
     lightUnit3.position.set(730, 800, -985);
     light.add(lightUnit3);
 
