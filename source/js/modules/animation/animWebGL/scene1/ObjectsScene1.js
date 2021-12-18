@@ -3,7 +3,7 @@ import {ExtrudedSvg} from '../extrudeSvg/ExtrudeSvg';
 import {degToRadians} from '../../utilsGeometry';
 
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
-import {Mat} from './Mat';
+import {Mat} from '../generalObjects/Mat';
 import {Saturn} from '../generalObjects/Saturn';
 export class ObjectsScene1 extends THREE.Group {
   constructor() {
