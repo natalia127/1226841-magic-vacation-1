@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import {getLathePointsForCircle, getLatheDegrees} from '../../utilsGeometry';
-import {RoadShaderMaterial} from "./roadShaderMaterial";
+import {RoadShaderMaterial} from "./RoadShaderMaterial";
 
 export class Road extends THREE.Group {
   constructor() {
