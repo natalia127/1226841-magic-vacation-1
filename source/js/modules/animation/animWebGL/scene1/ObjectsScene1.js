@@ -4,7 +4,7 @@ import {degToRadians} from '../../utilsGeometry';
 
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
 import {Mat} from './Mat';
-import {Saturn} from './Saturn';
+import {Saturn} from '../generalObjects/Saturn';
 export class ObjectsScene1 extends THREE.Group {
   constructor() {
     super();

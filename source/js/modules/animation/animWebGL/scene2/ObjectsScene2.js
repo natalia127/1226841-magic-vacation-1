@@ -4,6 +4,9 @@ import {degToRadians} from '../../utilsGeometry';
 
 import {ExtrudedSvg} from '../extrudeSvg/ExtrudeSvg';
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
+import {mapColors} from '../generalSettings/colors';
+import {getMaterial} from '../generalSettings/getMaterial';
+import {SOFT} from "../generalSettings/typeMaterials";
 export class ObjectsScene2 extends THREE.Group {
   constructor() {
     super();
@@ -26,9 +29,7 @@ export class ObjectsScene2 extends THREE.Group {
 
   }
   addPyramid() {
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x514EF3,
-    });
+    const material = getMaterial(SOFT, {color: mapColors.blue});
     const mesh = new THREE.Mesh(new THREE.ConeGeometry(250, 280, 4), material);
 
     mesh.scale.set(0.65, 0.9, 0.6);

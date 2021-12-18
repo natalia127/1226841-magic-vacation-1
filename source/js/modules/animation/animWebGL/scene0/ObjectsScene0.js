@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 import {ExtrudedSvg} from '../extrudeSvg/ExtrudeSvg';
 import {degToRadians} from '../../utilsGeometry';
-
+import {getMaterial} from '../generalSettings/getMaterial';
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
+import {mapColors} from '../generalSettings/colors';
+import {BASIC} from '../generalSettings/typeMaterials';
 export class ObjectsScene0 extends THREE.Group {
   constructor() {
     super();
@@ -11,11 +13,20 @@ export class ObjectsScene0 extends THREE.Group {
   }
   async constructChildren() {
     this.mapShapes = await getMapShapes();
+    this.addBackground();
     this.addFlamingo();
     this.addQuestion();
     this.addSnowflake();
     this.addLeaf();
     this.addKeyhole();
+  }
+  addBackground() {
+    const geometry = new THREE.PlaneGeometry(1000, 1000);
+    const background = new THREE.Mesh(geometry, getMaterial(BASIC, {
+      color: mapColors.purple
+    }));
+    background.position.set(0, 0, 10);
+    this.add(background);
   }
   addFlamingo() {
     const flamingo = new ExtrudedSvg(this.mapShapes, `flamingo`);
