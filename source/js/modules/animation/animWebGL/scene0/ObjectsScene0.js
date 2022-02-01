@@ -5,20 +5,26 @@ import {getMaterial} from '../generalSettings/getMaterial';
 import {getMapShapes} from '../extrudeSvg/shapeLoader';
 import {mapColors} from '../generalSettings/colors';
 import {BASIC} from '../generalSettings/typeMaterials';
+import {getMapModels} from '../loadModels/modelsLoader';
 export class ObjectsScene0 extends THREE.Group {
   constructor() {
     super();
     this.mapShapes = null;
+    this.mapModels = null;
     this.constructChildren();
   }
   async constructChildren() {
     this.mapShapes = await getMapShapes();
+    this.mapModels = await getMapModels();
     this.addBackground();
     this.addFlamingo();
     this.addQuestion();
     this.addSnowflake();
     this.addLeaf();
     this.addKeyhole();
+    this.addAirplane();
+    this.addWatermelon();
+    this.addSuitcase();
   }
   addBackground() {
     const geometry = new THREE.PlaneGeometry(1000, 1000);
@@ -64,5 +70,23 @@ export class ObjectsScene0 extends THREE.Group {
     keyhole.position.set(-1500, 1515, 0);
     keyhole.scale.set(1.5, -1.5, 1.5);
     this.add(keyhole);
+  }
+
+  addAirplane() {
+    const airplane = this.mapModels[`airplane`].model;
+    this.add(airplane.model);
+  }
+
+  addWatermelon() {
+    const watermelon = this.mapModels[`watermelon`].model;
+    watermelon.position.set(-450, -10, 100);
+    watermelon.rotation.copy(new THREE.Euler(degToRadians(-10), degToRadians(20), degToRadians(20)), `XYZ`);
+    watermelon.scale.set(1.3, 1.3, 1.3);
+    this.add(watermelon);
+  }
+
+  addSuitcase() {
+    const suitcase = this.mapModels[`suitcase`].model;
+    this.add(suitcase);
   }
 }

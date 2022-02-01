@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import {getMaterial} from '../generalSettings/getMaterial';
-import {SOFT} from "../generalSettings/typeMaterials";
 export class ExtrudedSvg extends THREE.Group {
   constructor(mapShapes, nameShape) {
     super();
@@ -10,7 +9,6 @@ export class ExtrudedSvg extends THREE.Group {
 
     this.depth = settingsShape.depth;
     this.cap = settingsShape.cap;
-    this.color = settingsShape.color;
     this.shape = settingsShape.shape;
     this.material = getMaterial(settingsShape.material, {
       ...settingsShape.optionsMaterial
