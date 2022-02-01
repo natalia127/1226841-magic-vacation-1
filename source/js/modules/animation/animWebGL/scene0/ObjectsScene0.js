@@ -74,7 +74,7 @@ export class ObjectsScene0 extends THREE.Group {
 
   addAirplane() {
     const airplane = this.mapModels[`airplane`].model;
-    this.add(airplane.model);
+    this.add(airplane);
   }
 
   addWatermelon() {
