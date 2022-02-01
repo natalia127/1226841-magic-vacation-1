@@ -1,5 +1,5 @@
-import {Scene3D} from './scene3D';
-import {ObjectsScene4} from './scene4/ObjectsScene4';
+import {Scene3D} from '../scene3D';
+import {ObjectsScene4} from './ObjectsScene4';
 
 export class SceneStory4 extends Scene3D {
   constructor() {

@@ -1,10 +1,11 @@
 import * as THREE from "three";
 import {getLathePointsForCircle, getLatheDegrees} from '../../utilsGeometry';
-
+import {MatShaderMaterial} from "./MatShaderMaterial";
 
 export class Mat extends THREE.Group {
-  constructor() {
+  constructor(nameTheme) {
     super();
+    this.nameTheme = nameTheme;
     this.constructChildren();
   }
   constructChildren() {
@@ -15,7 +16,7 @@ export class Mat extends THREE.Group {
     const {start, length} = getLatheDegrees(16, 74);
 
     const base = new THREE.LatheBufferGeometry(points, 50, start, length);
-    this.baseMesh = new THREE.Mesh(base, new THREE.MeshBasicMaterial({color: 0x9372BA, flatShading: true, side: THREE.DoubleSide}));
+    this.baseMesh = new THREE.Mesh(base, new MatShaderMaterial({flatShading: true, side: THREE.DoubleSide}, this.nameTheme));
 
     this.add(this.baseMesh);
   }
