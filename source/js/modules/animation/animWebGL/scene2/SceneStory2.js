@@ -1,15 +1,15 @@
 import * as THREE from 'three';
-import frShaderDistortion from './shaders/frShaderDistortion.glsl';
-import vertexShader from './shaders/vertexShader.glsl';
-import {Animation} from '../animCanvas/Animation';
-import {Scene3D} from './scene3D';
-import {ObjectsScene2} from './scene2/ObjectsScene2';
+import frShaderDistortion from '../shaders/frShaderDistortion.glsl';
+import vertexShader from '../shaders/vertexShader.glsl';
+import {Animation} from '../../animCanvas/Animation';
+import {Scene3D} from '../scene3D';
+import {ObjectsScene2} from './ObjectsScene2';
 let activeAnimates = null;
 
 export class SceneStory2 extends Scene3D {
   constructor() {
     super(2);
-    //this.isTestAnimate = false;
+    // this.isTestAnimate = false;
     this.objects = new ObjectsScene2();
   }
 
@@ -46,7 +46,7 @@ export class SceneStory2 extends Scene3D {
     this.renderScene();
 
 
-    //this.renderWithAnim();
+    // this.renderWithAnim();
   }
   renderWithAnim() {
     this.animations.push(

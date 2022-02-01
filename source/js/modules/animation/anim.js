@@ -27,9 +27,9 @@ import {AnimTimerGame} from './animScreenGame';
 
 import {addColorTheme} from './animScreenStoty';
 
-import {SceneStory1} from './animWebGL/SceneStory1';
+import {SceneStory1} from './animWebGL/scene1/SceneStory1';
 
-import {SceneTop} from './animWebGL/SceneTop';
+import {SceneTop} from './animWebGL/scene0/SceneTop';
 
 export const animChangeScreen = () => {
 

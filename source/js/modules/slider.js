@@ -1,9 +1,9 @@
 import Swiper from "swiper";
 import {addColorTheme} from "./animation/animScreenStoty";
-import {SceneStory2} from './animation/animWebGL/SceneStory2';
-import {SceneStory1} from './animation/animWebGL/SceneStory1';
-import {SceneStory3} from './animation/animWebGL/SceneStory3';
-import {SceneStory4} from './animation/animWebGL/SceneStory4';
+import {SceneStory2} from './animation/animWebGL/scene2/SceneStory2';
+import {SceneStory1} from './animation/animWebGL/scene1/SceneStory1';
+import {SceneStory3} from './animation/animWebGL/scene3/SceneStory3';
+import {SceneStory4} from './animation/animWebGL/scene4/SceneStory4';
 
 export default () => {
   let storySlider;
