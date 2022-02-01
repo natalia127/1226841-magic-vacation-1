@@ -17,9 +17,9 @@ const setup3dInfrastructure = ()=> {
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  const controls = new OrbitControls(camera, document.querySelector('body'));
+  const controls = new OrbitControls(camera, document.querySelector(`body`));
 
-  camera.position.z = 1024;
+  camera.position.z = 1405;
 
   controls.update();
 

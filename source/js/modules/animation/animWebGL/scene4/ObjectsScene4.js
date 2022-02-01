@@ -25,7 +25,7 @@ export class ObjectsScene4 extends THREE.Group {
     this.add(mat);
   }
   addSaturn() {
-    const saturn = new Saturn(`dark`);
+    const saturn = new Saturn({nameTheme: `dark`});
     saturn.position.set(70, 260, 0);
     this.add(saturn);
   }
