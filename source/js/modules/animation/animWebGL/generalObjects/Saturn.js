@@ -5,15 +5,21 @@ import {getMaterial} from '../generalSettings/getMaterial';
 import {SOFT} from "../generalSettings/typeMaterials";
 
 export class Saturn extends THREE.Group {
-  constructor(nameTheme = `light`) {
+  constructor(options) {
     super();
+    const optionsDefault =
+    {nameTheme: `light`,
+      withSmallSphere: true
+    };
+    options = {...optionsDefault, ...options};
     this.colors1 = null;
     this.colors2 = null;
     this.colors3 = null;
-    this.nameTheme = nameTheme;
+    this.nameTheme = options.nameTheme;
     this.spereBigPosition = null;
     this.cylinderPosition = null;
     this.radiusBigSpere = 60;
+    this.withSmallSphere = options.withSmallSphere;
     this.constructChildren();
   }
 
@@ -21,8 +27,11 @@ export class Saturn extends THREE.Group {
     this.setColorsTheme();
     this.addSphereBig();
     this.addRing();
-    this.addCylinder();
-    this.addSphereSmall();
+    if (this.withSmallSphere) {
+      this.addCylinder();
+      this.addSphereSmall();
+    }
+
   }
 
   setColorsTheme() {

@@ -6,6 +6,7 @@ import {getMapShapes} from '../extrudeSvg/shapeLoader';
 import {mapColors} from '../generalSettings/colors';
 import {BASIC} from '../generalSettings/typeMaterials';
 import {getMapModels} from '../loadModels/modelsLoader';
+import {Saturn} from '../generalObjects/Saturn';
 export class ObjectsScene0 extends THREE.Group {
   constructor() {
     super();
@@ -25,9 +26,10 @@ export class ObjectsScene0 extends THREE.Group {
     this.addAirplane();
     this.addWatermelon();
     this.addSuitcase();
+    this.addSuturn();
   }
   addBackground() {
-    const geometry = new THREE.PlaneGeometry(1000, 1000);
+    const geometry = new THREE.PlaneGeometry(1405, 1405);
     const background = new THREE.Mesh(geometry, getMaterial(BASIC, {
       color: mapColors.purple
     }));
@@ -60,9 +62,9 @@ export class ObjectsScene0 extends THREE.Group {
   }
   addLeaf() {
     const leaf = new ExtrudedSvg(this.mapShapes, `leafIntro`);
-    leaf.position.set(560, 230, 50);
-    leaf.rotation.copy(new THREE.Euler(degToRadians(10), degToRadians(10), degToRadians(-60)), `XYZ`);
-    leaf.scale.set(1, -1, 1);
+    leaf.position.set(660, 330, 150);
+    leaf.rotation.copy(new THREE.Euler(degToRadians(10), degToRadians(-30), degToRadians(-60)), `XYZ`);
+    leaf.scale.set(1.4, -1.4, 1.4);
     this.add(leaf);
   }
   addKeyhole() {
@@ -74,19 +76,34 @@ export class ObjectsScene0 extends THREE.Group {
 
   addAirplane() {
     const airplane = this.mapModels[`airplane`].model;
+    airplane.position.set(250, 180, 100);
+    airplane.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 120 * THREE.Math.DEG2RAD, -30 * THREE.Math.DEG2RAD), `XYZ`);
+    airplane.scale.set(1.5, 1.5, 1.5);
     this.add(airplane);
   }
 
   addWatermelon() {
     const watermelon = this.mapModels[`watermelon`].model;
-    watermelon.position.set(-450, -10, 100);
-    watermelon.rotation.copy(new THREE.Euler(degToRadians(-10), degToRadians(20), degToRadians(20)), `XYZ`);
-    watermelon.scale.set(1.3, 1.3, 1.3);
+    watermelon.position.set(-770, -280, 100);
+    watermelon.rotation.copy(new THREE.Euler(10 * THREE.Math.DEG2RAD, 0, 150 * THREE.Math.DEG2RAD), `XYZ`);
+    watermelon.scale.set(2.5, 2.5, 2.5);
     this.add(watermelon);
   }
 
   addSuitcase() {
     const suitcase = this.mapModels[`suitcase`].model;
+    suitcase.position.set(-80, -180, 40);
+    suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
+    suitcase.scale.set(0.6, 0.6, 0.6);
     this.add(suitcase);
+  }
+
+  addSuturn() {
+    const saturn = new Saturn({withSmallSphere: false});
+    saturn.position.set(570, -180, 150);
+
+    saturn.scale.set(0.8, 0.8, 0.8);
+    this.add(saturn);
+
   }
 }
