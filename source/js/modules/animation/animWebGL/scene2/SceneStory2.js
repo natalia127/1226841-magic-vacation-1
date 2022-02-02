@@ -4,6 +4,8 @@ import vertexShader from '../shaders/vertexShader.glsl';
 import {Animation} from '../../animCanvas/Animation';
 import {Scene3D} from '../scene3D';
 import {ObjectsScene2} from './ObjectsScene2';
+import {degToRadians} from '../../utilsGeometry';
+
 let activeAnimates = null;
 
 export class SceneStory2 extends Scene3D {
@@ -11,6 +13,8 @@ export class SceneStory2 extends Scene3D {
     super(2);
     // this.isTestAnimate = false;
     this.objects = new ObjectsScene2();
+    this.objects.rotateX(degToRadians(45));
+
   }
 
 
@@ -44,8 +48,6 @@ export class SceneStory2 extends Scene3D {
     super.setScene();
     this.scene.add(this.objects);
     this.renderScene();
-
-
     // this.renderWithAnim();
   }
   renderWithAnim() {

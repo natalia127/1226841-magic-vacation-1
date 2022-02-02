@@ -13,26 +13,27 @@ const setup3dInfrastructure = ()=> {
     height: initialHeight
   };
 
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   const controls = new OrbitControls(camera, document.querySelector(`body`));
 
-  camera.position.z = 1405;
+  camera.position.z = 2550;
 
   controls.update();
 
   const geometry = new THREE.PlaneGeometry(2048, 1024);
 
   document.querySelector(`.three--screen`).appendChild(renderer.domElement);
-
+  const scene = new THREE.Scene();
   const infrastructure = {
     renderer,
     canvasSize,
     camera,
     geometry,
-    controls
+    controls,
+    scene
   };
   return infrastructure;
 };
@@ -48,7 +49,9 @@ export class Scene3D {
     this.material = null;
     this.numberScene = numberScene;
     this.animations = [];
-    this.scene = new THREE.Scene();
+    this.scene = this.infrastructure.scene;
+    this.light = this.getLight();
+
     this.isTestAnimate = true;
   }
 
@@ -90,9 +93,12 @@ export class Scene3D {
     this.texture = loadedTexture[this.numberScene];
     this.setMaterial();
     const image = new THREE.Mesh(this.infrastructure.geometry, this.material);
-    this.scene = new THREE.Scene();
+    while (this.scene.children.length > 0) {
+      this.scene.remove(this.scene.children[0]);
+    }
     this.scene.add(image);
-    this.setLight();
+    this.scene.add(this.light);
+
     this.renderScene();
     this.initEventListner();
 
@@ -124,7 +130,7 @@ export class Scene3D {
     window.removeEventListener(`resize`, activeEventListener);
   }
 
-  setLight() {
+  getLight() {
     const light = new THREE.Group();
 
     // Light 1
@@ -146,6 +152,6 @@ export class Scene3D {
     light.add(lightUnit3);
 
     light.position.z = this.infrastructure.camera.position.z;
-    this.scene.add(light);
+    return light;
   }
 }
