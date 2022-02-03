@@ -31,7 +31,6 @@ export class ObjectsScene1 extends THREE.Group {
     const mat = new Mat();
     mat.rotation.copy(new THREE.Euler(0, degToRadians(-45), 0), `XYZ`);
     mat.position.set(0, -130, 30);
-    mat.receiveShadow = true;
     this.add(mat);
   }
   addSaturn() {
