@@ -6,7 +6,7 @@ export class SceneStory3 extends Scene3D {
   constructor() {
     super(3);
     this.objects = new ObjectsScene3();
-    this.objects.rotateX(degToRadians(45));
+    this.objects.rotateX(degToRadians(10));
 
   }
 

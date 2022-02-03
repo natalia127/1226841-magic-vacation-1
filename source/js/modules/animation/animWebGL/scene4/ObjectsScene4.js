@@ -6,6 +6,7 @@ import {Mat} from '../generalObjects/Mat';
 import {degToRadians} from '../../utilsGeometry';
 import {SceneBase} from '../generalObjects/SceneBase';
 import {mapColors} from '../generalSettings/colors';
+import {getMapModels} from '../loadModels/modelsLoader';
 
 export class ObjectsScene4 extends THREE.Group {
   constructor() {
@@ -15,11 +16,18 @@ export class ObjectsScene4 extends THREE.Group {
   }
   async constructChildren() {
     this.mapShapes = await getMapShapes();
+    this.mapModels = await getMapModels([`sonya`]);
     this.addSceneBase();
-
     this.addSaturn();
     this.addMat();
+    this.addSonya();
+  }
 
+  addSonya() {
+    const obj = this.mapModels[`sonya`].model;
+    obj.position.set(200, 0, 540);
+    obj.rotation.copy(new THREE.Euler(0, degToRadians(-35), 0), `XYZ`);
+    this.add(obj);
   }
   addMat() {
     const mat = new Mat(`dark`);

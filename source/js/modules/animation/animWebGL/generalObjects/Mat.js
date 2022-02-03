@@ -16,7 +16,8 @@ export class Mat extends THREE.Group {
     const {start, length} = getLatheDegrees(16, 74);
 
     const base = new THREE.LatheBufferGeometry(points, 50, start, length);
-    this.baseMesh = new THREE.Mesh(base, new MatShaderMaterial({flatShading: true, side: THREE.DoubleSide}, this.nameTheme));
+    this.baseMesh = new THREE.Mesh(base, new MatShaderMaterial({flatShading: true, side: THREE.BackSide}, this.nameTheme));
+    this.baseMesh.receiveShadow = true;
 
     this.add(this.baseMesh);
   }

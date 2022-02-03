@@ -4,7 +4,7 @@ import {getMapModels} from '../loadModels/modelsLoader';
 import {Footer} from './Footer';
 import {getMaterial} from '../generalSettings/getMaterial';
 import {SOFT} from '../generalSettings/typeMaterials';
-
+import {Suitcase} from '../generalObjects/Suitcase';
 
 export class SceneBase extends THREE.Group {
   constructor(options) {
@@ -25,10 +25,7 @@ export class SceneBase extends THREE.Group {
     this.addStaticScene();
   }
   addSuitcase() {
-    const suitcase = this.mapModels[`suitcase`].model.clone();
-    suitcase.position.set(-300, -130, 840);
-    suitcase.rotation.copy(0, 0, 0, `XYZ`);
-    suitcase.scale.set(0.7, 0.7, 0.7);
+    const suitcase = new Suitcase();
     this.add(suitcase);
   }
 

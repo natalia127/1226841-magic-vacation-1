@@ -39,9 +39,8 @@ export class ObjectsScene2 extends THREE.Group {
 
   addLamp() {
     const lamp = new Lamp();
-    lamp.position.set(400, -75, 500);
+    lamp.position.set(400, -75, 550);
     lamp.rotateY(degToRadians(-20));
-
     this.add(lamp);
 
   }
@@ -52,6 +51,7 @@ export class ObjectsScene2 extends THREE.Group {
     mesh.scale.set(0.7, 0.9, 0.7);
     mesh.rotateY(degToRadians(8));
     mesh.position.set(0, 0, 395);
+    mesh.castShadow = true;
     this.add(mesh);
   }
   addLeaf1() {

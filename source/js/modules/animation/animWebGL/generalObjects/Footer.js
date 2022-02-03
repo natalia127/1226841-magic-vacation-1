@@ -21,7 +21,7 @@ class Footer extends THREE.Group {
     const baseMesh = new THREE.Mesh(geometry, this.material);
 
     baseMesh.rotation.copy(new THREE.Euler(90 * THREE.Math.DEG2RAD, 180 * THREE.Math.DEG2RAD, 0));
-
+    baseMesh.receiveShadow = true;
     this.add(baseMesh);
   }
 }
