@@ -18,12 +18,16 @@ export class Snowman extends THREE.Group {
 
   addHead() {
     const head = new THREE.Mesh(new THREE.SphereGeometry(44, 50, 30), this.baseMaterial);
+    head.castShadow = true;
+
     this.add(head);
   }
 
   addBody() {
     const body = new THREE.Mesh(new THREE.SphereGeometry(75, 50, 30), this.baseMaterial);
     body.position.set(0, -105, 0);
+    body.castShadow = true;
+
     this.add(body);
   }
 

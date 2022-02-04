@@ -5,13 +5,21 @@ import {getMaterial} from '../generalSettings/getMaterial';
 
 
 const onComplete = (obj3d, params) => {
-  const material = getMaterial(params.material, {
-    ...params.optionsMaterial
-  });
+  let material;
+  if (params.material) {
+    material = getMaterial(params.material, {
+      ...params.optionsMaterial
+    });
+
+  }
 
   obj3d.traverse((child) => {
     if (child.isMesh) {
-      child.material = material;
+      if (material) {
+        child.material = material;
+      }
+      child.castShadow = params.castShadow;
+      child.receiveShadow = params.receiveShadow;
     }
   });
   params.model = obj3d.clone();
@@ -21,7 +29,7 @@ const onGltfComplete = (gltf, params) => {
   if (!gltf.scene) {
     return;
   }
-  params.model = gltf.scene;
+  onComplete(gltf.scene, params);
 };
 
 

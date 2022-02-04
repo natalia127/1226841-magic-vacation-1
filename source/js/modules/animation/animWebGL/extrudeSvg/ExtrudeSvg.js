@@ -10,6 +10,7 @@ export class ExtrudedSvg extends THREE.Group {
     this.depth = settingsShape.depth;
     this.cap = settingsShape.cap;
     this.shape = settingsShape.shape;
+    this.isShadow = settingsShape.castShadow;
     this.material = getMaterial(settingsShape.material, {
       ...settingsShape.optionsMaterial
     });
@@ -25,6 +26,9 @@ export class ExtrudedSvg extends THREE.Group {
       bevelThickness: this.cap,
     });
     const mesh = new THREE.Mesh(geometry, this.material);
+    if (this.isShadow) {
+      mesh.castShadow = true;
+    }
     this.add(mesh);
   }
 }
