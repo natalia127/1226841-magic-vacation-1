@@ -7,6 +7,8 @@ import {mapColors} from '../generalSettings/colors';
 import {BASIC} from '../generalSettings/typeMaterials';
 import {getMapModels} from '../loadModels/modelsLoader';
 import {Saturn} from '../generalObjects/Saturn';
+
+const keysModels = [`airplane`, `watermelon`, `suitcase`];
 export class ObjectsScene0 extends THREE.Group {
   constructor() {
     super();
@@ -16,7 +18,7 @@ export class ObjectsScene0 extends THREE.Group {
   }
   async constructChildren() {
     this.mapShapes = await getMapShapes();
-    this.mapModels = await getMapModels();
+    this.mapModels = await getMapModels(keysModels);
     this.addBackground();
     this.addFlamingo();
     this.addQuestion();
@@ -91,7 +93,7 @@ export class ObjectsScene0 extends THREE.Group {
   }
 
   addSuitcase() {
-    const suitcase = this.mapModels[`suitcase`].model;
+    const suitcase = this.mapModels[`suitcase`].model.clone();
     suitcase.position.set(-80, -180, 40);
     suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
     suitcase.scale.set(0.6, 0.6, 0.6);

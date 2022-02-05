@@ -4,13 +4,13 @@ import {SceneStory2} from './animation/animWebGL/scene2/SceneStory2';
 import {SceneStory1} from './animation/animWebGL/scene1/SceneStory1';
 import {SceneStory3} from './animation/animWebGL/scene3/SceneStory3';
 import {SceneStory4} from './animation/animWebGL/scene4/SceneStory4';
-
+const scene1 = new SceneStory1();
+const scene2 = new SceneStory2();
+const scene3 = new SceneStory3();
+const scene4 = new SceneStory4();
 export default () => {
   let storySlider;
-  const scene1 = new SceneStory1();
-  const scene2 = new SceneStory2();
-  const scene3 = new SceneStory3();
-  const scene4 = new SceneStory4();
+
 
   const setSlider = function () {
     if (window.innerWidth / window.innerHeight < 1 || window.innerWidth < 769) {
