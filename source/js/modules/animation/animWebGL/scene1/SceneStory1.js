@@ -9,7 +9,7 @@ export class SceneStory1 extends Scene3D {
   }
   setObjects() {
     this.objects = new ObjectsScene1();
-    this.objects.rotateX(degToRadians(45));
+    this.objects.rotateX(degToRadians(10));
   }
   setScene() {
     super.setScene();

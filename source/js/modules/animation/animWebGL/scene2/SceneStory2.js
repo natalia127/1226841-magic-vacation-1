@@ -13,7 +13,7 @@ export class SceneStory2 extends Scene3D {
     super(2);
     // this.isTestAnimate = false;
     this.objects = new ObjectsScene2();
-    this.objects.rotateX(degToRadians(45));
+    this.objects.rotateX(degToRadians(10));
 
   }
 

@@ -1,10 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import fragmentShader from './shaders/fragmentShader.glsl';
-import vertexShader from './shaders/vertexShader.glsl';
 
-const basicUrlImg = `./img/module-5/scenes-textures/`;
-const loadedTexture = {};
 const setup3dInfrastructure = ()=> {
   const initialWidth = window.innerWidth;
   const initialHeight = window.innerHeight;
@@ -13,13 +9,15 @@ const setup3dInfrastructure = ()=> {
     height: initialHeight
   };
 
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const controls = new OrbitControls(camera, document.querySelector(`body`));
 
-  camera.position.z = 2550;
+  camera.position.z = 1800;
 
   controls.update();
 
@@ -44,14 +42,11 @@ let requestId = null;
 export class Scene3D {
   constructor(numberScene) {
     this.infrastructure = infrastructure;
-    this.urlTexture = `${basicUrlImg}scene-${numberScene}.png`;
-    this.texture = null;
-    this.material = null;
     this.numberScene = numberScene;
     this.animations = [];
     this.scene = this.infrastructure.scene;
+    this.camera = this.infrastructure.camera;
     this.light = this.getLight();
-
     this.isTestAnimate = true;
   }
 
@@ -59,46 +54,17 @@ export class Scene3D {
     if (!infrastructure) {
       infrastructure = setup3dInfrastructure();
     }
-    if (!loadedTexture[this.numberScene]) {
-      await this.initTexture();
-    }
+
     this.setScene();
   }
 
-  initTexture() {
-    return new Promise((resolve) => {
-      const manager = new THREE.LoadingManager();
-      let texture = new THREE.TextureLoader(manager).load(this.urlTexture);
-      manager.onLoad = () => {
-        loadedTexture[this.numberScene] = texture;
-        resolve();
-      };
-    });
-
-  }
-  setMaterial() {
-    this.material = new THREE.RawShaderMaterial({
-      uniforms: {
-        uMap: {
-          value: this.texture,
-        }
-
-      },
-      vertexShader: vertexShader.sourceCode,
-      fragmentShader: fragmentShader.sourceCode
-    });
-  }
   setScene() {
     this.stopRender();
-    this.texture = loadedTexture[this.numberScene];
-    this.setMaterial();
-    const image = new THREE.Mesh(this.infrastructure.geometry, this.material);
     while (this.scene.children.length > 0) {
       this.scene.remove(this.scene.children[0]);
     }
-    this.scene.add(image);
-    this.scene.add(this.light);
 
+    this.scene.add(this.light);
     this.renderScene();
     this.initEventListner();
 
@@ -139,19 +105,31 @@ export class Scene3D {
     targetObject.position.set(0, this.infrastructure.camera.position.z * Math.tan(15 * THREE.Math.DEG2RAD), 0);
     this.scene.add(targetObject);
     lightUnit1.target = targetObject;
+    lightUnit1.castShadow = true;
+
     light.add(lightUnit1);
 
     // Light 2
-    const lightUnit2 = new THREE.PointLight(new THREE.Color(`rgb(246,242,255)`), 0.9, 0, 0.5);
-    lightUnit2.position.set(-785, 350, -710);
+    const lightUnit2 = new THREE.PointLight(new THREE.Color(`rgb(246,242,255)`), 0.3);
+    lightUnit2.position.set(-500, 700, 0);
+    lightUnit2.castShadow = true;
+    lightUnit2.shadow.camera.far = 3000;
+    lightUnit2.shadow.mapSize.width = 500;
+    lightUnit2.shadow.mapSize.height = 500;
+    lightUnit2.shadow.camera.near = 0.5;
+
     light.add(lightUnit2);
 
-    // // Light 3
-    const lightUnit3 = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.9, 0, 0.5);
-    lightUnit3.position.set(730, 800, -985);
+    const lightUnit3 = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.45);
+    lightUnit3.position.set(500, 1500, -700);
+    lightUnit3.castShadow = true;
+    lightUnit3.shadow.camera.far = 3000;
+    lightUnit3.shadow.mapSize.width = 500;
+    lightUnit3.shadow.mapSize.height = 500;
+    lightUnit3.shadow.camera.near = 0.5;
     light.add(lightUnit3);
-
-    light.position.z = this.infrastructure.camera.position.z;
+    light.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
     return light;
   }
+
 }

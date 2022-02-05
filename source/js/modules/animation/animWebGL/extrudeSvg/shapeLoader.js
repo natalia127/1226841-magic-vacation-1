@@ -10,6 +10,7 @@ const mapShapes = Object.freeze({
     material: SOFT,
     optionsMaterial: {color: mapColors.lightDominantRed},
     shape: null,
+    castShadow: true
   },
   snowflake: {
     id: `snowflake`,
@@ -17,7 +18,9 @@ const mapShapes = Object.freeze({
     cap: 2,
     material: BASIC,
     optionsMaterial: {color: mapColors.blue},
-    shape: null
+    shape: null,
+    castShadow: true
+
   },
   question: {
     id: `question`,
@@ -25,7 +28,9 @@ const mapShapes = Object.freeze({
     cap: 2,
     material: BASIC,
     optionsMaterial: {color: mapColors.blue},
-    shape: null
+    shape: null,
+    castShadow: true
+
   },
   leafKeyhole: {
     id: `leaf`,
@@ -33,7 +38,8 @@ const mapShapes = Object.freeze({
     cap: 2,
     material: BASIC,
     optionsMaterial: {color: mapColors.green},
-    shape: null
+    shape: null,
+    castShadow: true
   },
   leafIntro: {
     id: `leaf`,
@@ -41,7 +47,8 @@ const mapShapes = Object.freeze({
     cap: 3,
     material: BASIC,
     optionsMaterial: {color: mapColors.green},
-    shape: null
+    shape: null,
+    castShadow: true
   },
   leaf1Scene2: {
     id: `leaf`,
@@ -49,7 +56,8 @@ const mapShapes = Object.freeze({
     cap: 3,
     material: BASIC,
     optionsMaterial: {color: mapColors.green},
-    shape: null
+    shape: null,
+    castShadow: true
   },
   leaf2Scene2: {
     id: `leaf`,
@@ -57,7 +65,8 @@ const mapShapes = Object.freeze({
     cap: 3,
     material: BASIC,
     optionsMaterial: {color: mapColors.green},
-    shape: null
+    shape: null,
+    castShadow: true
   },
   keyhole: {
     id: `keyhole`,
@@ -65,7 +74,8 @@ const mapShapes = Object.freeze({
     cap: 2,
     material: SOFT,
     optionsMaterial: {color: mapColors.darkPurple},
-    shape: null
+    shape: null,
+    castShadow: true
   },
   flower: {
     id: `flower`,
@@ -73,7 +83,8 @@ const mapShapes = Object.freeze({
     cap: 2,
     material: BASIC,
     optionsMaterial: {color: mapColors.darkPurple},
-    shape: null
+    shape: null,
+    castShadow: true
   },
 });
 let loadedShape = false;
