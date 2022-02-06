@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-
+import {Animation} from '../animCanvas/Animation';
 const setup3dInfrastructure = ()=> {
   const initialWidth = window.innerWidth;
   const initialHeight = window.innerHeight;
@@ -47,7 +47,11 @@ export class Scene3D {
     this.scene = this.infrastructure.scene;
     this.camera = this.infrastructure.camera;
     this.light = this.getLight();
-    this.isTestAnimate = true;
+    this.isTestAnimate = false;
+    this.startTime = -1;
+    this.figures = [];
+    this.lengthFiguresForUpdate = 0;
+
   }
 
   async init() {
@@ -63,18 +67,45 @@ export class Scene3D {
     while (this.scene.children.length > 0) {
       this.scene.remove(this.scene.children[0]);
     }
-
     this.scene.add(this.light);
-    this.renderScene();
+    this.animations.push(new Animation({
+      f: () => {
+        this.renderScene();
+      },
+      dur: `infinite`,
+    }));
+    this.initAnim(0);
     this.initEventListner();
 
   }
+
+  initAnim() {
+    this.animations.forEach((anim) => {
+      if (!anim.startTime) {
+        anim.start();
+      }
+    });
+  }
+
   renderScene() {
+    if (this.lengthFiguresForUpdate !== this.figures.length) {
+      this.initNewFigure();
+    }
+
     this.infrastructure.renderer.render(this.scene, this.infrastructure.camera);
     this.infrastructure.controls.update();
-    if (this.isTestAnimate) {
-      requestId = requestAnimationFrame(this.renderScene.bind(this));
-    }
+  }
+
+  initNewFigure() {
+    let newFigures = this.figures.slice(this.lengthFiguresForUpdate);
+    newFigures.forEach((parametrs) => {
+      this.scene.add(parametrs.figure);
+      if (parametrs.getAnimations) {
+        this.animations.push(...parametrs.getAnimations());
+      }
+      this.initAnim();
+      this.lengthFiguresForUpdate = this.figures.length;
+    });
   }
   updateSize() {
     this.infrastructure.canvasSize.width = window.innerWidth;

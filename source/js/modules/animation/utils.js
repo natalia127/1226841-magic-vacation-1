@@ -17,10 +17,13 @@ function linear(x) {
 function inQuad(x) {
   return x * x;
 }
-
+function easeOutQuart(x) {
+  return 1 - Math.pow(1 - x, 4);
+}
 
 export const ease = {
   outElastic,
   linear,
-  inQuad
+  inQuad,
+  easeOutQuart
 };
