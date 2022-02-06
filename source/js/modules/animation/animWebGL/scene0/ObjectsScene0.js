@@ -10,9 +10,8 @@ import {Saturn} from '../generalObjects/Saturn';
 import {Animation} from '../../animCanvas/Animation';
 import {ease} from '../../utils';
 const keysModels = [`airplane`, `watermelon`, `suitcase`];
-export class ObjectsScene0 extends THREE.Group {
+export class ObjectsScene0 {
   constructor() {
-    super();
     this.mapShapes = null;
     this.mapModels = null;
     this.constructChildren();
@@ -25,7 +24,7 @@ export class ObjectsScene0 extends THREE.Group {
   }
   async constructChildren() {
     await this.setMapsFigure();
-    this.addBackground();
+    this.figures.push(this.getBackground());
     this.figures.push(this.getFlamingo());
     this.figures.push(this.getQuestion());
     this.figures.push(this.getSnowflake());
@@ -38,13 +37,15 @@ export class ObjectsScene0 extends THREE.Group {
     // this.addSuitcase();
   }
 
-  addBackground() {
+  getBackground() {
     const geometry = new THREE.PlaneGeometry(1405, 1405);
     const background = new THREE.Mesh(geometry, getMaterial(BASIC, {
       color: mapColors.purple
     }));
     background.position.set(0, 0, 10);
-    this.add(background);
+    return {
+      figure: background
+    };
   }
   getFlamingo() {
     const flamingo = new ExtrudedSvg(this.mapShapes, `flamingo`);
@@ -65,8 +66,8 @@ export class ObjectsScene0 extends THREE.Group {
         }),
         new Animation({
           f: (t, details) => {
-            const ampY = 0.05;
-            const ampX = 0.08;
+            const ampY = 0.015;
+            const ampX = 0.018;
             const period = 4000;
             flamingo.position.y = flamingo.position.y +
             ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
@@ -101,8 +102,8 @@ export class ObjectsScene0 extends THREE.Group {
         }),
         new Animation({
           f: (t, details) => {
-            const ampY = 0.07;
-            const ampX = 0.08;
+            const ampY = 0.021;
+            const ampX = 0.028;
             const period = 5000;
             question.position.y = question.position.y +
             ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
@@ -178,7 +179,7 @@ export class ObjectsScene0 extends THREE.Group {
         }),
         new Animation({
           f: (t, details) => {
-            const ampY = 0.2;
+            const ampY = 0.025;
             const ampX = 0.02;
             const period = 5000;
             leaf.position.y = leaf.position.y -
@@ -209,7 +210,6 @@ export class ObjectsScene0 extends THREE.Group {
     airplane.position.set(250, 180, 100);
     airplane.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 120 * THREE.Math.DEG2RAD, -30 * THREE.Math.DEG2RAD), `XYZ`);
     airplane.scale.set(1.5, 1.5, 1.5);
-    this.add(airplane);
   }
 
   getWatermelon() {
@@ -232,8 +232,8 @@ export class ObjectsScene0 extends THREE.Group {
         }),
         new Animation({
           f: (t, details) => {
-            const ampY = 0.15;
-            const ampX = 0.2;
+            const ampY = 0.015;
+            const ampX = 0.04;
             const period = 7000;
             watermelon.position.y = watermelon.position.y +
             ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
@@ -255,7 +255,6 @@ export class ObjectsScene0 extends THREE.Group {
     suitcase.position.set(-80, -180, 40);
     suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
     suitcase.scale.set(0.6, 0.6, 0.6);
-    this.add(suitcase);
   }
 
   getSuturn() {
@@ -281,7 +280,7 @@ export class ObjectsScene0 extends THREE.Group {
         new Animation({
           f: (t, details) => {
             const ampY = 0.05;
-            const ampX = 0.2;
+            const ampX = 0.022;
             const period = 6500;
             saturn.position.y = saturn.position.y -
             ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
