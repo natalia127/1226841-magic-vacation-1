@@ -4,25 +4,19 @@ import {Road} from './Road';
 import {degToRadians} from '../../utilsGeometry';
 import {SceneBase} from '../generalObjects/SceneBase';
 import {mapColors} from '../generalSettings/colors';
-import {getMapModels} from '../loadModels/modelsLoader';
 
-export class ObjectsScene3 extends THREE.Group {
+export class StaticObjectsScene3 extends THREE.Group {
   constructor() {
     super();
     this.constructChildren();
   }
   async constructChildren() {
-    this.mapModels = await getMapModels([`compass`]);
+
     this.addSnowman();
     this.addRoad();
     this.addSceneBase();
-    this.addCompas();
   }
-  addCompas() {
-    const obj = this.mapModels[`compass`].model;
-    obj.position.set(-200, -130, 140);
-    this.add(obj);
-  }
+
   addSnowman() {
     const snowman = new Snowman();
     snowman.position.set(-50, 100, 400);

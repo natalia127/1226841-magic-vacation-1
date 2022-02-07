@@ -3,8 +3,9 @@ import frShaderDistortion from '../shaders/frShaderDistortion.glsl';
 import vertexShader from '../shaders/vertexShader.glsl';
 import {Animation} from '../../animCanvas/Animation';
 import {Scene3D} from '../scene3D';
-import {ObjectsScene2} from './ObjectsScene2';
+import {StaticObjectsScene2} from './StaticObjectsScene2';
 import {degToRadians} from '../../utilsGeometry';
+import {AnimObjectsScene2} from './AnimObjectsScene2';
 
 let activeAnimates = null;
 
@@ -12,11 +13,16 @@ export class SceneStory2 extends Scene3D {
   constructor() {
     super(2);
     // this.isTestAnimate = false;
-    this.objects = new ObjectsScene2();
-    this.objects.rotateX(degToRadians(10));
+    this.objects = null;
 
   }
 
+  async initObject() {
+    this.objects = new StaticObjectsScene2();
+    this.objects.rotateX(degToRadians(10));
+    await this.initAnimObject(AnimObjectsScene2);
+
+  }
 
   setMaterial() {
     this.material = new THREE.RawShaderMaterial({
@@ -44,9 +50,13 @@ export class SceneStory2 extends Scene3D {
       fragmentShader: frShaderDistortion.sourceCode
     });
   }
-  setScene() {
+  async setScene() {
     super.setScene();
+    if (!this.objects) {
+      await this.initObject();
+    }
     this.scene.add(this.objects);
+
     this.renderScene();
     // this.renderWithAnim();
   }

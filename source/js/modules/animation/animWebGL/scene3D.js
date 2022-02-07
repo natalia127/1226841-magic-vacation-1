@@ -38,12 +38,11 @@ const setup3dInfrastructure = ()=> {
 let infrastructure = setup3dInfrastructure();
 let activeEventListener = null;
 let requestId = null;
-
+let animations = [];
 export class Scene3D {
   constructor(numberScene) {
     this.infrastructure = infrastructure;
     this.numberScene = numberScene;
-    this.animations = [];
     this.scene = this.infrastructure.scene;
     this.camera = this.infrastructure.camera;
     this.light = this.getLight();
@@ -51,6 +50,7 @@ export class Scene3D {
     this.startTime = -1;
     this.figures = [];
     this.lengthFiguresForUpdate = 0;
+    this.staticScene = null;
 
   }
 
@@ -68,7 +68,7 @@ export class Scene3D {
       this.scene.remove(this.scene.children[0]);
     }
     this.scene.add(this.light);
-    this.animations.push(new Animation({
+    animations.push(new Animation({
       f: () => {
         this.renderScene();
       },
@@ -80,7 +80,7 @@ export class Scene3D {
   }
 
   initAnim() {
-    this.animations.forEach((anim) => {
+    animations.forEach((anim) => {
       if (!anim.startTime) {
         anim.start();
       }
@@ -89,19 +89,25 @@ export class Scene3D {
 
   renderScene() {
     if (this.lengthFiguresForUpdate !== this.figures.length) {
-      this.initNewFigure();
+      this.initAnimFigure();
     }
 
     this.infrastructure.renderer.render(this.scene, this.infrastructure.camera);
     this.infrastructure.controls.update();
   }
 
-  initNewFigure() {
+  initAnimFigure() {
     let newFigures = this.figures.slice(this.lengthFiguresForUpdate);
+    let target = this.staticScene;
+    if (!target) {
+      this.staticScene = this.scene.getObjectByName(`staticScene`) || null;
+      target = this.staticScene || this.scene;
+    }
+
     newFigures.forEach((parametrs) => {
-      this.scene.add(parametrs.figure);
+      target.add(parametrs.figure);
       if (parametrs.getAnimations) {
-        this.animations.push(...parametrs.getAnimations());
+        animations.push(...parametrs.getAnimations());
       }
     });
     this.lengthFiguresForUpdate = this.figures.length;
@@ -118,6 +124,11 @@ export class Scene3D {
   }
   stopRender() {
     cancelAnimationFrame(requestId);
+    animations.forEach((anim) => {
+      anim.stop();
+    });
+    animations = [];
+    this.lengthFiguresForUpdate = 0;
     this.dropEventListner();
   }
 
@@ -163,6 +174,13 @@ export class Scene3D {
     light.add(lightUnit3);
     light.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);
     return light;
+  }
+
+  async initAnimObject(AnimObjectsScene) {
+    let animObjects = new AnimObjectsScene();
+    await animObjects.init();
+
+    this.figures = animObjects.figures;
   }
 
 }

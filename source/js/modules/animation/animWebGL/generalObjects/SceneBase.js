@@ -25,7 +25,7 @@ export class SceneBase extends THREE.Group {
   addStaticScene() {
     const staticScene1 = this.mapModels[this.options.keysModels.staticScene].model;
     staticScene1.rotation.copy(new THREE.Euler(0, -45 * THREE.Math.DEG2RAD, 0));
-    staticScene1.position.set(0, -130, 0);
+    staticScene1.position.set(0, -130, 10);
     this.add(staticScene1);
   }
   addWall() {
