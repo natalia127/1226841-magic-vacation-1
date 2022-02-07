@@ -103,9 +103,11 @@ export class Scene3D {
       if (parametrs.getAnimations) {
         this.animations.push(...parametrs.getAnimations());
       }
-      this.initAnim();
-      this.lengthFiguresForUpdate = this.figures.length;
     });
+    this.lengthFiguresForUpdate = this.figures.length;
+
+    this.initAnim();
+
   }
   updateSize() {
     this.infrastructure.canvasSize.width = window.innerWidth;
