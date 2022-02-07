@@ -7,73 +7,202 @@ import {mapColors} from '../generalSettings/colors';
 import {BASIC} from '../generalSettings/typeMaterials';
 import {getMapModels} from '../loadModels/modelsLoader';
 import {Saturn} from '../generalObjects/Saturn';
-
+import {Animation} from '../../animCanvas/Animation';
+import {ease} from '../../utils';
 const keysModels = [`airplane`, `watermelon`, `suitcase`];
-export class ObjectsScene0 extends THREE.Group {
+export class ObjectsScene0 {
   constructor() {
-    super();
     this.mapShapes = null;
     this.mapModels = null;
     this.constructChildren();
+    this.figures = [];
   }
-  async constructChildren() {
+  async setMapsFigure() {
     this.mapShapes = await getMapShapes();
     this.mapModels = await getMapModels(keysModels);
-    this.addBackground();
-    this.addFlamingo();
-    this.addQuestion();
-    this.addSnowflake();
-    this.addLeaf();
-    this.addKeyhole();
-    this.addAirplane();
-    this.addWatermelon();
-    this.addSuitcase();
-    this.addSuturn();
+
   }
-  addBackground() {
+  async constructChildren() {
+    await this.setMapsFigure();
+    this.figures.push(this.getBackground());
+    this.figures.push(this.getFlamingo());
+    this.figures.push(this.getQuestion());
+    this.figures.push(this.getSnowflake());
+    this.figures.push(this.getLeaf());
+    this.figures.push(this.getWatermelon());
+    this.figures.push(this.getSuturn());
+    this.figures.push(this.getKeyhole());
+
+    // this.addAirplane();
+    // this.addSuitcase();
+  }
+
+  getBackground() {
     const geometry = new THREE.PlaneGeometry(1405, 1405);
     const background = new THREE.Mesh(geometry, getMaterial(BASIC, {
       color: mapColors.purple
     }));
     background.position.set(0, 0, 10);
-    this.add(background);
+    return {
+      figure: background
+    };
   }
-  addFlamingo() {
+  getFlamingo() {
     const flamingo = new ExtrudedSvg(this.mapShapes, `flamingo`);
-    flamingo.position.set(-550, 410, 40);
-    flamingo.scale.set(2, 2, 1);
-
+    flamingo.scale.set(0, 0, 0);
     flamingo.rotateZ(degToRadians(-160));
-    this.add(flamingo);
+    return {
+      figure: flamingo,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            const reverseT = 1 - t;
+            flamingo.scale.set(2 * t, 2 * t, 1 * t);
+            flamingo.position.set((-550 * t), 410 * t, 40 * t + 50);
+            flamingo.rotation.copy(new THREE.Euler(degToRadians(-45 * reverseT), 0, -160), `XYZ`);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        new Animation({
+          f: (t, details) => {
+            const ampY = 0.015;
+            const ampX = 0.018;
+            const period = 4000;
+            flamingo.position.y = flamingo.position.y +
+            ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+            flamingo.position.x = flamingo.position.x +
+            ampX * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+
+          },
+          del: 1500,
+          dur: `infinite`
+
+        }),
+        ];
+      }
+    };
   }
 
-  addQuestion() {
+  getQuestion() {
     const question = new ExtrudedSvg(this.mapShapes, `question`);
-    question.position.set(100, -310, 100);
-    question.rotation.copy(new THREE.Euler(degToRadians(-10), degToRadians(10), degToRadians(20)), `XYZ`);
-    question.scale.set(1.5, -1.5, 1.5);
-    this.add(question);
+    question.scale.set(0, 0, 0);
+    return {
+      figure: question,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            question.scale.set(1.5 * t, 1.5 * t, 1.5 * t);
+            question.position.set((100 * t), -310 * t, 100 * t + 50);
+
+            question.rotation.copy(new THREE.Euler(degToRadians(130), degToRadians(20 * t), degToRadians(-30 * t)), `XYZ`);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        new Animation({
+          f: (t, details) => {
+            const ampY = 0.021;
+            const ampX = 0.028;
+            const period = 5000;
+            question.position.y = question.position.y +
+            ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+            question.position.x = question.position.x -
+            ampX * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+
+          },
+          del: 1500,
+          dur: `infinite`
+
+        }),
+        ];
+      }
+    };
   }
 
-  addSnowflake() {
+  getSnowflake() {
     const snowflake = new ExtrudedSvg(this.mapShapes, `snowflake`);
     snowflake.position.set(-450, -10, 100);
     snowflake.rotation.copy(new THREE.Euler(degToRadians(-10), degToRadians(20), degToRadians(20)), `XYZ`);
-    snowflake.scale.set(1.3, 1.3, 1.3);
-    this.add(snowflake);
+    snowflake.scale.set(0, 0, 0);
+    return {
+      figure: snowflake,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            const reverseT = 1 - t;
+
+            snowflake.scale.set(1.3 * t, 1.3 * t, 1.3 * t);
+            snowflake.position.set((-450 * t), -10 * t, 100 * t + 50);
+
+            snowflake.rotation.copy(new THREE.Euler(degToRadians(-10 * t), degToRadians(reverseT * -30 + 70 * t), degToRadians(20)), `XYZ`);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        new Animation({
+          f: (t, details) => {
+            const ampY = 0.02;
+            const ampX = 0.03;
+            const period = 5000;
+            snowflake.position.y = snowflake.position.y +
+            ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+            snowflake.position.x = snowflake.position.x -
+            ampX * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+
+          },
+          del: 1500,
+          dur: `infinite`
+
+        }),
+        ];
+      }
+    };
   }
-  addLeaf() {
+  getLeaf() {
     const leaf = new ExtrudedSvg(this.mapShapes, `leafIntro`);
-    leaf.position.set(660, 330, 150);
-    leaf.rotation.copy(new THREE.Euler(degToRadians(10), degToRadians(-30), degToRadians(-60)), `XYZ`);
-    leaf.scale.set(1.4, -1.4, 1.4);
-    this.add(leaf);
+    leaf.scale.set(0, 0, 0);
+    return {
+      figure: leaf,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            const reverseT = 1 - t;
+
+            leaf.scale.set(1.4 * t, -1.4 * t, 1.4 * t);
+            leaf.position.set((660 * t), 330 * t, 150 * t + 50);
+
+            leaf.rotation.copy(new THREE.Euler(degToRadians(10 * t), degToRadians(reverseT * 30 + -30 * t), degToRadians(-60)), `XYZ`);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        new Animation({
+          f: (t, details) => {
+            const ampY = 0.025;
+            const ampX = 0.02;
+            const period = 5000;
+            leaf.position.y = leaf.position.y -
+            ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+            leaf.position.x = leaf.position.x -
+            ampX * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+
+          },
+          del: 1500,
+          dur: `infinite`
+
+        }),
+        ];
+      }
+    };
   }
-  addKeyhole() {
+  getKeyhole() {
     const keyhole = new ExtrudedSvg(this.mapShapes, `keyhole`);
     keyhole.position.set(-1500, 1515, 0);
     keyhole.scale.set(1.5, -1.5, 1.5);
-    this.add(keyhole);
+    return {
+      figure: keyhole
+    };
   }
 
   addAirplane() {
@@ -81,15 +210,44 @@ export class ObjectsScene0 extends THREE.Group {
     airplane.position.set(250, 180, 100);
     airplane.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 120 * THREE.Math.DEG2RAD, -30 * THREE.Math.DEG2RAD), `XYZ`);
     airplane.scale.set(1.5, 1.5, 1.5);
-    this.add(airplane);
   }
 
-  addWatermelon() {
+  getWatermelon() {
     const watermelon = this.mapModels[`watermelon`].model;
-    watermelon.position.set(-770, -280, 100);
-    watermelon.rotation.copy(new THREE.Euler(10 * THREE.Math.DEG2RAD, 0, 150 * THREE.Math.DEG2RAD), `XYZ`);
-    watermelon.scale.set(2.5, 2.5, 2.5);
-    this.add(watermelon);
+    watermelon.scale.set(0, 0, 0);
+    return {
+      figure: watermelon,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            const reverseT = 1 - t;
+
+            watermelon.scale.set(2.5 * t, 2.5 * t, 2.5 * t);
+            watermelon.position.set((-770 * t), -280 * t, 100 * t + 50);
+
+            watermelon.rotation.copy(new THREE.Euler(degToRadians(10 * t), degToRadians(reverseT * 30 + 0 * t), degToRadians(150 * t)), `XYZ`);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        new Animation({
+          f: (t, details) => {
+            const ampY = 0.015;
+            const ampX = 0.04;
+            const period = 7000;
+            watermelon.position.y = watermelon.position.y +
+            ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+            watermelon.position.x = watermelon.position.x -
+            ampX * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+
+          },
+          del: 1500,
+          dur: `infinite`
+
+        }),
+        ];
+      }
+    };
   }
 
   addSuitcase() {
@@ -97,15 +255,46 @@ export class ObjectsScene0 extends THREE.Group {
     suitcase.position.set(-80, -180, 40);
     suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
     suitcase.scale.set(0.6, 0.6, 0.6);
-    this.add(suitcase);
   }
 
-  addSuturn() {
+  getSuturn() {
     const saturn = new Saturn({withSmallSphere: false});
     saturn.position.set(570, -180, 150);
 
     saturn.scale.set(0.8, 0.8, 0.8);
-    this.add(saturn);
+    return {
+      figure: saturn,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            const reverseT = 1 - t;
+
+            saturn.scale.set(0.8 * t, 0.8 * t, 0.8 * t);
+            saturn.position.set((570 * t), -180 * t, 150 * t + 50);
+
+            saturn.rotation.copy(new THREE.Euler(degToRadians(0 * t), degToRadians(reverseT * 0), degToRadians(0 * t)), `XYZ`);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        new Animation({
+          f: (t, details) => {
+            const ampY = 0.05;
+            const ampX = 0.022;
+            const period = 6500;
+            saturn.position.y = saturn.position.y -
+            ampY * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+            saturn.position.x = saturn.position.x -
+            ampX * Math.sin(2 * Math.PI * (details.currentTime - details.startTime) / period);
+
+          },
+          del: 1500,
+          dur: `infinite`
+
+        }),
+        ];
+      }
+    };
 
   }
 }
