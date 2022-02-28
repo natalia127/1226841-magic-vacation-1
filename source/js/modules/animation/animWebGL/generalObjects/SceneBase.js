@@ -4,7 +4,6 @@ import {getMapModels} from '../loadModels/modelsLoader';
 import {Footer} from './Footer';
 import {getMaterial} from '../generalSettings/getMaterial';
 import {SOFT} from '../generalSettings/typeMaterials';
-import {Suitcase} from '../generalObjects/Suitcase';
 
 export class SceneBase extends THREE.Group {
   constructor(options) {
@@ -19,20 +18,14 @@ export class SceneBase extends THREE.Group {
     this.mapModels = await getMapModels(keys);
 
     this.addFooter();
-    this.addSuitcase();
-
     this.addWall();
     this.addStaticScene();
-  }
-  addSuitcase() {
-    const suitcase = new Suitcase();
-    this.add(suitcase);
   }
 
   addStaticScene() {
     const staticScene1 = this.mapModels[this.options.keysModels.staticScene].model;
     staticScene1.rotation.copy(new THREE.Euler(0, -45 * THREE.Math.DEG2RAD, 0));
-    staticScene1.position.set(0, -130, 0);
+    staticScene1.position.set(0, -130, 10);
     this.add(staticScene1);
   }
   addWall() {
