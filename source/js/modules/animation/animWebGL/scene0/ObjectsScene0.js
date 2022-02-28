@@ -32,9 +32,9 @@ export class ObjectsScene0 {
     this.figures.push(this.getWatermelon());
     this.figures.push(this.getSuturn());
     this.figures.push(this.getKeyhole());
+    this.figures.push(this.getSuitcase());
 
     // this.addAirplane();
-    // this.addSuitcase();
   }
 
   getBackground() {
@@ -205,7 +205,7 @@ export class ObjectsScene0 {
     };
   }
 
-  addAirplane() {
+  getAirplane() {
     const airplane = this.mapModels[`airplane`].model;
     airplane.position.set(250, 180, 100);
     airplane.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 120 * THREE.Math.DEG2RAD, -30 * THREE.Math.DEG2RAD), `XYZ`);
@@ -250,11 +250,57 @@ export class ObjectsScene0 {
     };
   }
 
-  addSuitcase() {
-    const suitcase = this.mapModels[`suitcase`].model.clone();
-    suitcase.position.set(-80, -180, 40);
-    suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
-    suitcase.scale.set(0.6, 0.6, 0.6);
+  getSuitcase() {
+    const optAnim = {
+      startScale: [0, 0, 0],
+      finishScale: [0.7, 0.7, 0.7],
+      startPosition: [0, 0, 100],
+      finishPosition: [-70, -150, 400],
+      startRotation: [-100, 0, 0],
+      finishRotation: [20, -50, -10],
+      amp: -0.1,
+      period: 0.35
+    };
+    const mesh = this.mapModels[`suitcase`].model.clone();
+    mesh.rotation.copy(new THREE.Euler(0, degToRadians(-90), 0));
+
+    const groupScale = wrapGroup(`scale`, mesh);
+    const groupRotation = wrapGroup(`rotation`, groupScale);
+    const groupPositionXY = wrapGroup(`positionXY`, groupRotation);
+    const groupMove = wrapGroup(`move`, groupPositionXY);
+    groupScale.scale.set(0, 0, 0);
+    // groupMove.position.set(0, 0, 50);
+    // groupRotation.rotation.copy(new THREE.Euler(degToRadians(-100), 0, 0));
+    const suitcase = groupMove;
+    // suitcase.position.set(-80, -180, 40);
+    // suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
+    // suitcase.scale.set(0.6, 0.6, 0.6);
+    return {
+      figure: suitcase,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+            console.log(t);
+            const scale = t * optAnim.finishScale + optAnim.startScale;
+            // const position = t * optAnim.finishPosition + optAnim.startPosition;
+            // const rotation = t * optAnim.finishRotation + optAnim.startRotation;
+
+            // const positionX = 30 * Math.sin((1.5 * Math.PI * t) / 1.5);
+            // const positionY = 170 * Math.sin((1.5 * Math.PI * t) / 1.5);
+            // const positionXY = [positionX, positionY, 0];
+
+            groupScale.scale.set(scale, scale, scale);
+            // groupMove.position.set(position, position, position);
+            // groupRotation.rotation.copy(new THREE.Euler(degToRadians(rotation), degToRadians(rotation), degToRadians(rotation)));
+            // groupPositionXY.position.set(...positionXY);
+            console.log(suitcase);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        ];
+      }
+    };
   }
 
   getSuturn() {
@@ -298,3 +344,23 @@ export class ObjectsScene0 {
 
   }
 }
+
+
+function wrapGroup(name, child) {
+  const group = new THREE.Group();
+  group.name = name;
+  group.add(child);
+  return group;
+}
+
+
+// const setParamsXYZ = (start, finish, easing) => {
+//   let paramsArr = [];
+
+//   for (let i = 0; i <= 2; i++) {
+//     const param = tick(start[i], finish[i], easing);
+//     paramsArr.push(param);
+//   }
+
+//   return paramsArr;
+// };
