@@ -26,8 +26,11 @@ export class Saturn extends THREE.Group {
 
   constructChildren() {
     this.setColorsTheme();
-    this.addSphereBig();
-    this.addRing();
+    const sphere = new THREE.Group();
+    sphere.add(this.getSphereBig());
+    sphere.add(this.getRing());
+    sphere.name = `bigSphere`;
+    this.add(sphere);
     if (this.withSmallSphere) {
       this.addCylinder();
       this.addSphereSmall();
@@ -47,17 +50,16 @@ export class Saturn extends THREE.Group {
     }
   }
 
-  addSphereBig() {
+  getSphereBig() {
     const geometry = new THREE.SphereGeometry(this.radiusBigSpere, 50, 50);
     const material = getMaterial(SOFT, {color: this.colors1});
     const sphereBig = new THREE.Mesh(geometry, material);
     this.spereBigPosition = sphereBig.position;
     sphereBig.castShadow = this.castShadow;
-
-    this.add(sphereBig);
+    return sphereBig;
   }
 
-  addRing() {
+  getRing() {
     const points = getLathePointsForCircle((120 - 80), 2, 80);
 
     const geometry = new THREE.LatheBufferGeometry(points, 50);
@@ -66,7 +68,8 @@ export class Saturn extends THREE.Group {
     const ring = new THREE.Mesh(geometry, material);
     ring.rotation.copy(new THREE.Euler(20 * THREE.Math.DEG2RAD, 0, 18 * THREE.Math.DEG2RAD), `XYZ`);
     ring.castShadow = this.castShadow;
-    this.add(ring);
+    ring.name = `ring`;
+    return ring;
   }
 
   addCylinder() {
