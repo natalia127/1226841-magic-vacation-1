@@ -257,7 +257,7 @@ export class ObjectsScene0 {
       startPosition: [0, 0, 100],
       finishPosition: [-70, -150, 400],
       startRotation: [-100, 0, 0],
-      finishRotation: [20, -50, -10],
+      finishRotation: [120, -50, -10],
       amp: -0.1,
       period: 0.35
     };
@@ -269,31 +269,27 @@ export class ObjectsScene0 {
     const groupPositionXY = wrapGroup(`positionXY`, groupRotation);
     const groupMove = wrapGroup(`move`, groupPositionXY);
     groupScale.scale.set(0, 0, 0);
-    // groupMove.position.set(0, 0, 50);
-    // groupRotation.rotation.copy(new THREE.Euler(degToRadians(-100), 0, 0));
+
     const suitcase = groupMove;
-    // suitcase.position.set(-80, -180, 40);
-    // suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
-    // suitcase.scale.set(0.6, 0.6, 0.6);
     return {
       figure: suitcase,
       getAnimations() {
         return [new Animation({
           f: (t) => {
-            console.log(t);
-            const scale = t * optAnim.finishScale + optAnim.startScale;
-            // const position = t * optAnim.finishPosition + optAnim.startPosition;
-            // const rotation = t * optAnim.finishRotation + optAnim.startRotation;
 
-            // const positionX = 30 * Math.sin((1.5 * Math.PI * t) / 1.5);
-            // const positionY = 170 * Math.sin((1.5 * Math.PI * t) / 1.5);
-            // const positionXY = [positionX, positionY, 0];
+            const scale = getParamsForAnim(optAnim.startScale, optAnim.finishScale, t);
 
-            groupScale.scale.set(scale, scale, scale);
-            // groupMove.position.set(position, position, position);
-            // groupRotation.rotation.copy(new THREE.Euler(degToRadians(rotation), degToRadians(rotation), degToRadians(rotation)));
-            // groupPositionXY.position.set(...positionXY);
-            console.log(suitcase);
+            const position = getParamsForAnim(optAnim.startPosition, optAnim.finishPosition, t);
+            const rotation = getParamsForAnim(optAnim.startRotation, optAnim.finishRotation, t);
+
+            const positionX = 30 * Math.sin((1.5 * Math.PI * t) / 1.5);
+            const positionY = 170 * Math.sin((1.5 * Math.PI * t) / 1.5);
+            const positionXY = [positionX, positionY, 0];
+
+            groupScale.scale.set(...scale);
+            groupMove.position.set(...position);
+            groupRotation.rotation.copy(new THREE.Euler(degToRadians(rotation[0]), degToRadians(rotation[1]), degToRadians(rotation[2])));
+            groupPositionXY.position.set(...positionXY);
           },
           dur: 1500,
           easing: ease.easeOutQuart
@@ -354,13 +350,13 @@ function wrapGroup(name, child) {
 }
 
 
-// const setParamsXYZ = (start, finish, easing) => {
-//   let paramsArr = [];
+const getParamsForAnim = (start, finish, t) => {
+  let paramsArr = [];
 
-//   for (let i = 0; i <= 2; i++) {
-//     const param = tick(start[i], finish[i], easing);
-//     paramsArr.push(param);
-//   }
+  for (let i = 0; i <= 2; i++) {
+    const param = t * finish[i] + start[i];
+    paramsArr.push(param);
+  }
 
-//   return paramsArr;
-// };
+  return paramsArr;
+};
