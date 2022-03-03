@@ -32,9 +32,9 @@ export class ObjectsScene0 {
     this.figures.push(this.getWatermelon());
     this.figures.push(this.getSuturn());
     this.figures.push(this.getKeyhole());
+    this.figures.push(this.getSuitcase());
 
     // this.addAirplane();
-    // this.addSuitcase();
   }
 
   getBackground() {
@@ -205,7 +205,7 @@ export class ObjectsScene0 {
     };
   }
 
-  addAirplane() {
+  getAirplane() {
     const airplane = this.mapModels[`airplane`].model;
     airplane.position.set(250, 180, 100);
     airplane.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 120 * THREE.Math.DEG2RAD, -30 * THREE.Math.DEG2RAD), `XYZ`);
@@ -250,11 +250,53 @@ export class ObjectsScene0 {
     };
   }
 
-  addSuitcase() {
-    const suitcase = this.mapModels[`suitcase`].model.clone();
-    suitcase.position.set(-80, -180, 40);
-    suitcase.rotation.copy(new THREE.Euler(30 * THREE.Math.DEG2RAD, -135 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
-    suitcase.scale.set(0.6, 0.6, 0.6);
+  getSuitcase() {
+    const optAnim = {
+      startScale: [0, 0, 0],
+      finishScale: [0.7, 0.7, 0.7],
+      startPosition: [0, 0, 100],
+      finishPosition: [-70, -150, 400],
+      startRotation: [-100, 0, 0],
+      finishRotation: [120, -50, -10],
+      amp: -0.1,
+      period: 0.35
+    };
+    const mesh = this.mapModels[`suitcase`].model.clone();
+    mesh.rotation.copy(new THREE.Euler(0, degToRadians(-90), 0));
+
+    const groupScale = wrapGroup(`scale`, mesh);
+    const groupRotation = wrapGroup(`rotation`, groupScale);
+    const groupPositionXY = wrapGroup(`positionXY`, groupRotation);
+    const groupMove = wrapGroup(`move`, groupPositionXY);
+    groupScale.scale.set(0, 0, 0);
+
+    const suitcase = groupMove;
+    return {
+      figure: suitcase,
+      getAnimations() {
+        return [new Animation({
+          f: (t) => {
+
+            const scale = getParamsForAnim(optAnim.startScale, optAnim.finishScale, t);
+
+            const position = getParamsForAnim(optAnim.startPosition, optAnim.finishPosition, t);
+            const rotation = getParamsForAnim(optAnim.startRotation, optAnim.finishRotation, t);
+
+            const positionX = 30 * Math.sin((1.5 * Math.PI * t) / 1.5);
+            const positionY = 170 * Math.sin((1.5 * Math.PI * t) / 1.5);
+            const positionXY = [positionX, positionY, 0];
+
+            groupScale.scale.set(...scale);
+            groupMove.position.set(...position);
+            groupRotation.rotation.copy(new THREE.Euler(degToRadians(rotation[0]), degToRadians(rotation[1]), degToRadians(rotation[2])));
+            groupPositionXY.position.set(...positionXY);
+          },
+          dur: 1500,
+          easing: ease.easeOutQuart
+        }),
+        ];
+      }
+    };
   }
 
   getSuturn() {
@@ -298,3 +340,23 @@ export class ObjectsScene0 {
 
   }
 }
+
+
+function wrapGroup(name, child) {
+  const group = new THREE.Group();
+  group.name = name;
+  group.add(child);
+  return group;
+}
+
+
+const getParamsForAnim = (start, finish, t) => {
+  let paramsArr = [];
+
+  for (let i = 0; i <= 2; i++) {
+    const param = t * finish[i] + start[i];
+    paramsArr.push(param);
+  }
+
+  return paramsArr;
+};
